@@ -344,9 +344,29 @@ h6 {
     transform: rotate(360deg);
 }
 
+.brand-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
 .brand-text {
     font-size: 20px;
+    line-height: 1.2;
 }
+
+.brand-tagline {
+    font-size: 12px;
+    font-weight: var(--font-weight-normal);
+    color: var(--dark-green);
+    opacity: 0.9;
+    line-height: 1;
+}
+
+[data-theme="dark"] .brand-tagline {
+    color: var(--accent-green);
+}
+
 
 .nav-link {
     color: var(--dark-gray);
@@ -1446,6 +1466,14 @@ h6 {
 
     .hero-buttons {
         flex-direction: column;
+    }
+
+    .brand-text {
+        font-size: 16px;
+    }
+
+    .brand-tagline {
+        display: none;
     }
 
     .stat-card {
