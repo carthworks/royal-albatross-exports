@@ -1,0 +1,105 @@
+# Royal Albatross Exports - Git Ignore File
+
+# Logs
+*.log
+inquiries.log
+php-errors.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Temporary Files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Node Modules (if using build tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build Files
+dist/
+build/
+.cache/
+
+# Environment Files
+.env
+.env.local
+.env.production
+
+# Sensitive Data
+config.php
+database.php
+credentials.json
+
+# Uploads (if you add upload functionality)
+uploads/
+temp/
+
+# Cache
+cache/
+*.cache
+
+# Compressed Files
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
+# Large Media Files (optional - uncomment if needed)
+# *.mp4
+# *.mov
+# *.avi
+
+# Backup Files
+backup/
+*.sql
+
+# Testing
+coverage/
+.nyc_output/
+
+# Package Manager
+package-lock.json
+yarn.lock
+composer.lock
+
+# IDE
+.phpintel/
+.buildpath
+.project
+.settings/
+
+# macOS
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Windows
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.md 
+!README.md
+
+
+# Linux
+*~
+.directory
+.Trash-*
