@@ -1,11 +1,11 @@
 <?php
 /**
  * Visitor Counter System
- * Tracks unique visitors and total page views
+ * Displays visitor statistics from the tracking system
  */
 
 // File to store visitor data
-$counterFile = 'visitor-counter.json';
+$visitorLogFile = 'visitor-logs.json';
 
 // Initialize counter data
 $counterData = [
@@ -15,44 +15,30 @@ $counterData = [
     'visitors' => []
 ];
 
-// Load existing data if file exists
-if (file_exists($counterFile)) {
-    $json = file_get_contents($counterFile);
-    $existingData = json_decode($json, true);
-    if ($existingData) {
-        $counterData = $existingData;
+// Load visitor logs if file exists
+if (file_exists($visitorLogFile)) {
+    $json = file_get_contents($visitorLogFile);
+    $visitorLogs = json_decode($json, true);
+    
+    if ($visitorLogs && is_array($visitorLogs)) {
+        // Calculate total visits
+        $counterData['total_visits'] = count($visitorLogs);
+        
+        // Calculate unique visitors (unique IP addresses)
+        $uniqueIPs = [];
+        foreach ($visitorLogs as $log) {
+            if (isset($log['ip_address'])) {
+                $uniqueIPs[$log['ip_address']] = true;
+            }
+        }
+        $counterData['unique_visitors'] = count($uniqueIPs);
+        
+        // Get the timestamp of the first log
+        if (!empty($visitorLogs)) {
+            $counterData['last_reset'] = $visitorLogs[0]['timestamp'] ?? date('Y-m-d H:i:s');
+        }
     }
 }
-
-// Get visitor identifier (IP + User Agent for better uniqueness)
-$visitorIP = $_SERVER['REMOTE_ADDR'];
-$userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
-$visitorHash = md5($visitorIP . $userAgent);
-
-// Check if this is a unique visitor (not seen in last 24 hours)
-$isNewVisitor = true;
-$currentTime = time();
-$oneDayAgo = $currentTime - (24 * 60 * 60);
-
-// Clean up old visitor records (older than 24 hours)
-$counterData['visitors'] = array_filter($counterData['visitors'], function($timestamp) use ($oneDayAgo) {
-    return $timestamp > $oneDayAgo;
-});
-
-// Check if visitor exists in recent records
-if (isset($counterData['visitors'][$visitorHash])) {
-    $isNewVisitor = false;
-}
-
-// Update counters
-$counterData['total_visits']++;
-if ($isNewVisitor) {
-    $counterData['unique_visitors']++;
-    $counterData['visitors'][$visitorHash] = $currentTime;
-}
-
-// Save updated data
-file_put_contents($counterFile, json_encode($counterData, JSON_PRETTY_PRINT));
 
 // Return counter data
 return $counterData;

@@ -1,0 +1,128 @@
+# Visitor IP Tracking System - Admin Guide
+
+## Overview
+A secure system has been implemented to track and collect visitor IP addresses and detailed information invisibly in the background. Only you (the admin) can view this data through a password-protected admin page.
+
+## What Information is Collected?
+For each visitor, the system automatically logs:
+- **IP Address** - The visitor's IP address
+- **Timestamp** - Date and time of visit
+- **Browser** - Which browser they're using (Chrome, Firefox, Safari, etc.)
+- **Operating System** - Their OS (Windows, macOS, Linux, Android, iOS)
+- **Referer** - Where they came from (Google, direct visit, etc.)
+- **Page Visited** - Which page they accessed
+- **User Agent** - Full browser/device information
+
+## How to Access the Visitor Logs
+
+### Step 1: Navigate to Admin Page
+Open your browser and go to:
+```
+https://yourdomain.com/admin-visitor-logs.php
+```
+
+### Step 2: Login
+Enter the admin password:
+**Password:** `royal2026admin`
+
+⚠️ **IMPORTANT:** Change this password immediately!
+- Open `admin-visitor-logs.php` in a text editor
+- Find line 10: `$ADMIN_PASSWORD = 'royal2026admin';`
+- Change it to your desired password
+- Save the file
+
+### Step 3: View Dashboard
+Once logged in, you'll see:
+- **Total Visits** - All page views
+- **Unique Visitors** - Number of different IP addresses
+- **Today's Visits** - Visits from today
+- **Top Browser** - Most common browser used
+- **Detailed Table** - Complete log of all visitors with IP addresses
+
+## Features
+
+### 🔍 Search Functionality
+Use the search box to filter logs by:
+- IP address
+- Browser name
+- Operating system
+- Any other field
+
+### 📥 Export to CSV
+Click the "Export CSV" button to download all visitor data as a spreadsheet for further analysis.
+
+### 🔄 Auto-Refresh
+The data is updated in real-time. Simply refresh the page to see new visitors.
+
+### 🗑️ Auto-Cleanup
+The system automatically keeps only the last 1,000 visitor entries to prevent the log file from becoming too large.
+
+## Files Created
+
+1. **includes/visitor-tracker.php**
+   - Background script that collects visitor information
+   - Runs automatically on every page load
+   - Stores data in `visitor-logs.json`
+
+2. **admin-visitor-logs.php**
+   - Secure admin dashboard
+   - Password protected
+   - Beautiful interface with statistics and export features
+
+3. **visitor-logs.json**
+   - JSON file storing all visitor data
+   - Located in the root directory
+   - Automatically created when first visitor arrives
+
+## Security Features
+
+✅ **Password Protection** - Only authorized users can access logs
+✅ **Session-Based Authentication** - Secure login system
+✅ **Invisible to Visitors** - Tracking happens in the background
+✅ **No External Services** - All data stored on your server
+✅ **Logout Function** - Secure logout to end admin session
+
+## Important Notes
+
+1. **Privacy Compliance**: Ensure you comply with privacy laws (GDPR, CCPA, etc.) in your region. Consider adding a privacy policy mentioning visitor tracking.
+
+2. **File Permissions**: Make sure the web server has write permissions to create `visitor-logs.json` in the root directory.
+
+3. **Change Default Password**: The default password is `royal2026admin` - change this immediately for security!
+
+4. **Backup Logs**: Periodically download/backup the visitor logs using the CSV export feature.
+
+5. **Hide Admin Page**: Consider renaming `admin-visitor-logs.php` to something less obvious (e.g., `secure-panel-xyz123.php`) for additional security.
+
+## Troubleshooting
+
+**Problem:** Can't access admin page
+- **Solution:** Make sure you're using the correct URL and password
+
+**Problem:** No visitor data showing
+- **Solution:** Check that `visitor-logs.json` file was created and has write permissions
+
+**Problem:** "File not found" error
+- **Solution:** Ensure all files are uploaded to the correct directory on your server
+
+## How It Works
+
+1. When someone visits your website, `index.php` loads
+2. It automatically includes `visitor-tracker.php`
+3. Visitor information is collected and saved to `visitor-logs.json`
+4. The visitor sees nothing - it's completely invisible
+5. You access `admin-visitor-logs.php` to view all collected data
+
+## Next Steps
+
+1. ✅ Change the default admin password
+2. ✅ Test the system by visiting your website from different devices
+3. ✅ Check the admin panel to see your own visit logged
+4. ✅ Consider renaming the admin page for extra security
+5. ✅ Add a privacy policy to your website
+
+---
+
+**Created:** January 8, 2026
+**System Version:** 1.0
+**Status:** Active and Running

@@ -1,3 +1,7 @@
+<?php
+// Track visitor information
+include_once 'includes/visitor-tracker.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,6 +44,9 @@
 </head>
 
 <body>
+    <!-- Welcome Modal -->
+    <?php include 'includes/welcome-modal.php'; ?>
+    
     <!-- Loading Animation -->
     <div id="loader" class="loader-wrapper">
         <div class="loader-content">
