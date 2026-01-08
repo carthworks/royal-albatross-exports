@@ -36,8 +36,8 @@
                 <div class="footer-contact">
                     <h4>Contact Info</h4>
                     <ul>
-                        <li><i class="fas fa-phone"></i> +91 94422 29082</li>
-                        <li><i class="fas fa-envelope"></i> royalalbatrossexports@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +91 94422 29082, 91 63834 24438</li>
+                        <li><i class="fas fa-envelope"></i> royalalbatrossexports@gmail.com, info@royalalbatrossexports.in  </li>
                         <li><i class="fas fa-map-marker-alt"></i> Coimbatore, Tamil Nadu, India</li>
                     </ul>
                 </div>
@@ -54,6 +54,8 @@
                 <i class="fas fa-eye"></i> <?php echo number_format($visitorData['total_visits']); ?> visits
                 <span style="margin: 0 8px;">•</span>
                 <i class="fas fa-users"></i> <?php echo number_format($visitorData['unique_visitors']); ?> visitors
+                <span style="margin: 0 8px;">•</span>
+                <i class="fas fa-code"></i> Crafted by <a href="https://github.com/carthworks" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none; border-bottom: 1px dotted currentColor;">carthworks</a>
             </p>
         </div>
     </div>

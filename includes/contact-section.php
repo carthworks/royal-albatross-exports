@@ -21,7 +21,8 @@
                             <i class="fas fa-phone"></i>
                         </div>
                         <h4>Phone</h4>
-                        <p><a href="tel:+919442229082">+91 94422 29082</a></p>
+                        <p><a href="tel:+919442229082">+91 94422 29082</a>
+                        </p>
                     </div>
                     <div class="info-card">
                         <div class="info-icon">

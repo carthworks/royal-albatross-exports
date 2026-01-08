@@ -21,8 +21,8 @@ header('Access-Control-Allow-Headers: Content-Type');
 // Configuration
 $config = [
     'recipient_email' => 'royalalbatrossexports@gmail.com',
-    'cc_email' => '', // Optional CC email
-    'from_email' => 'noreply@royalalbatrossexport.com',
+    'cc_email' => 'info@royalalbatrossexports.in', // Optional CC email
+    'from_email' => 'noreply@royalalbatrossexports.in',
     'from_name' => 'Royal Albatross Exports Website',
     'subject_prefix' => '[Website Inquiry]',
     'enable_auto_reply' => true,
