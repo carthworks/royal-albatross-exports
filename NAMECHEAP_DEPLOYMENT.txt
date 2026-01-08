@@ -1,0 +1,105 @@
+# Namecheap Hosting Deployment Guide
+## Royal Albatross Exports - PHP Website
+
+This guide will help you deploy your PHP website to Namecheap shared hosting.
+
+---
+
+## 📋 Pre-Deployment Checklist
+
+### Files to Upload:
+- ✅ `index.php` - Main website file
+- ✅ `contact-handler.php` - Contact form processor
+- ✅ `.htaccess` - Server configuration
+- ✅ `phpinfo.php` - Server info checker (delete after use)
+- ✅ `css/` - All CSS files
+- ✅ `js/` - All JavaScript files
+- ✅ `assets/` - All images and media
+- ✅ `includes/` - PHP include files
+
+### Files NOT to Upload:
+- ❌ `index.html` - (replaced by index.php)
+- ❌ `script.php` - (renamed to contact-handler.php)
+- ❌ `.git/` - Git repository
+- ❌ `*.md` - Documentation files (optional)
+- ❌ `setup.bat`, `setup.sh` - Setup scripts
+
+---
+
+## 🚀 Step-by-Step Deployment
+
+### Step 1: Access Your Namecheap Hosting
+
+1. Log in to your Namecheap account
+2. Go to **Dashboard** → **Hosting List**
+3. Click **Manage** next to your hosting package
+4. Access **cPanel**
+
+### Step 2: Upload Files via File Manager
+
+**Option A: Using cPanel File Manager (Recommended)**
+
+1. In cPanel, open **File Manager**
+2. Navigate to `public_html` directory
+3. Delete default `index.html` if present
+4. Click **Upload** button
+5. Upload all your website files
+6. Maintain the folder structure:
+   ```
+   public_html/
+   ├── index.php
+   ├── contact-handler.php
+   ├── phpinfo.php
+   ├── .htaccess
+   ├── css/
+   ├── js/
+   ├── assets/
+   └── includes/
+   ```
+
+**Option B: Using FTP (FileZilla)**
+
+1. Download FileZilla from https://filezilla-project.org/
+2. Get FTP credentials from cPanel → **FTP Accounts**
+3. Connect to your server:
+   - Host: `ftp.yourdomain.com`
+   - Username: Your FTP username
+   - Password: Your FTP password
+   - Port: 21
+4. Upload all files to `public_html` directory
+
+### Step 3: Check Server Configuration
+
+1. Visit: `https://yourdomain.com/phpinfo.php?pass=royal2024`
+2. Verify PHP version (should be 7.4 or higher)
+3. Check that required extensions are enabled
+4. **IMPORTANT:** Delete `phpinfo.php` after checking!
+
+### Step 4: Configure Email Settings
+
+1. In cPanel, go to **Email Accounts**
+2. Create email: `noreply@yourdomain.com`
+3. Update `contact-handler.php` line 25
+
+### Step 5: Test Your Website
+
+1. Visit `https://yourdomain.com`
+2. Test all navigation links
+3. Submit a test contact form
+4. Check email delivery
+
+---
+
+## 📧 Email Configuration
+
+Edit `contact-handler.php` (lines 22-28) and update the from_email to match your domain.
+
+---
+
+## 🔒 Security: Delete phpinfo.php After Use!
+
+The phpinfo.php file exposes sensitive server information. Delete it immediately after checking your configuration.
+
+---
+
+**Contact:** royalalbatrossexports@gmail.com

@@ -1,0 +1,359 @@
+# Visitor Counter System
+## Royal Albatross Exports
+
+---
+
+## ✅ Visitor Counter Added to Footer
+
+A professional visitor tracking system has been added to your website footer.
+
+---
+
+## 📊 What It Tracks
+
+### **Total Visits**
+- Every page load is counted
+- Includes returning visitors
+- Shows overall traffic
+
+### **Unique Visitors**
+- Counts each visitor only once per 24 hours
+- Based on IP address + User Agent
+- More accurate representation of actual visitors
+
+---
+
+## 🎨 Display Location
+
+**Footer (Bottom Right)**
+```
+© 2026 Royal Albatross Exports. All rights reserved. | Designed with ❤ for Excellence
+👁 1,234 visits • 👥 567 visitors
+```
+
+**Styling:**
+- Small, subtle text (85% size)
+- Slightly transparent (70% opacity)
+- Eye icon for visits
+- Users icon for unique visitors
+- Separated by bullet point
+
+---
+
+## 🔧 How It Works
+
+### **1. Visitor Detection**
+```php
+// Creates unique identifier from:
+- IP Address
+- User Agent (browser info)
+- Hashed for privacy
+```
+
+### **2. Uniqueness Logic**
+- Visitor is "unique" if not seen in last 24 hours
+- After 24 hours, same visitor counts as new
+- Old records automatically cleaned up
+
+### **3. Data Storage**
+- Stored in `visitor-counter.json`
+- JSON format for easy reading
+- Automatically created on first visit
+
+### **4. Counter Updates**
+- Total visits: Incremented on every page load
+- Unique visitors: Incremented only for new/returning (24h+) visitors
+- Data saved immediately
+
+---
+
+## 📁 Files Created
+
+### **1. includes/visitor-counter.php**
+- Main counter logic
+- Handles tracking and storage
+- Returns visitor data
+
+### **2. visitor-counter.json** (auto-created)
+- Stores counter data
+- JSON format
+- Example:
+```json
+{
+    "total_visits": 1234,
+    "unique_visitors": 567,
+    "last_reset": "2026-01-08 09:27:07",
+    "visitors": {
+        "abc123...": 1704700027,
+        "def456...": 1704700128
+    }
+}
+```
+
+### **3. includes/footer.php** (updated)
+- Includes visitor counter
+- Displays formatted numbers
+- Styled for subtle appearance
+
+---
+
+## 🎯 Features
+
+### **✅ Privacy-Friendly**
+- IP addresses are hashed (not stored in plain text)
+- No personal data collected
+- GDPR compliant
+
+### **✅ Performance Optimized**
+- Lightweight (single file read/write)
+- Automatic cleanup of old data
+- No database required
+
+### **✅ Accurate Counting**
+- Prevents double-counting same visitor
+- 24-hour uniqueness window
+- Handles multiple devices properly
+
+### **✅ Easy to Reset**
+- Simply delete `visitor-counter.json`
+- Counter starts fresh automatically
+
+---
+
+## 🔧 Configuration
+
+### **Change Uniqueness Window**
+
+Edit `includes/visitor-counter.php` line 27:
+```php
+// Current: 24 hours
+$oneDayAgo = $currentTime - (24 * 60 * 60);
+
+// Change to 1 hour:
+$oneDayAgo = $currentTime - (1 * 60 * 60);
+
+// Change to 7 days:
+$oneDayAgo = $currentTime - (7 * 24 * 60 * 60);
+```
+
+### **Change Display Format**
+
+Edit `includes/footer.php` line 52-56:
+```php
+// Current format:
+👁 1,234 visits • 👥 567 visitors
+
+// Change icons:
+<i class="fas fa-chart-line"></i> <?php echo number_format($visitorData['total_visits']); ?> views
+
+// Change separator:
+<span style="margin: 0 8px;">|</span>
+
+// Remove unique visitors:
+<!-- Just show total visits -->
+```
+
+### **Hide Counter**
+
+Comment out in `includes/footer.php`:
+```php
+<!--
+<p class="visitor-counter" style="...">
+    ...
+</p>
+-->
+```
+
+---
+
+## 📊 Sample Data
+
+### **visitor-counter.json Structure:**
+```json
+{
+    "total_visits": 1234,
+    "unique_visitors": 567,
+    "last_reset": "2026-01-08 09:27:07",
+    "visitors": {
+        "5f4dcc3b5aa765d61d8327deb882cf99": 1704700027,
+        "098f6bcd4621d373cade4e832627b4f6": 1704700128,
+        "1a79a4d60de6718e8e5b326e338ae533": 1704700256
+    }
+}
+```
+
+**Fields:**
+- `total_visits` - Total page loads
+- `unique_visitors` - Unique visitors count
+- `last_reset` - When counter was initialized
+- `visitors` - Hash → timestamp mapping (for 24h tracking)
+
+---
+
+## 🧪 Testing
+
+### **Test the Counter:**
+
+1. **First Visit:**
+   - Refresh the page
+   - Check footer: "1 visit • 1 visitor"
+
+2. **Refresh Page:**
+   - Refresh again
+   - Check footer: "2 visits • 1 visitor"
+   - (Same visitor, so unique count doesn't increase)
+
+3. **Wait 24 Hours:**
+   - Come back tomorrow
+   - Refresh page
+   - Check footer: "3 visits • 2 visitors"
+   - (Now counted as new unique visitor)
+
+4. **Different Browser:**
+   - Open in different browser
+   - Check footer: Unique visitors increases
+   - (Different user agent = different visitor)
+
+---
+
+## 🔒 Security & Privacy
+
+### **What's Stored:**
+- ✅ Hashed visitor identifiers (MD5)
+- ✅ Timestamps
+- ✅ Counter numbers
+
+### **What's NOT Stored:**
+- ❌ Raw IP addresses
+- ❌ Personal information
+- ❌ Browsing history
+- ❌ Cookies
+
+### **File Permissions:**
+- `visitor-counter.json` should be writable (644 or 666)
+- Located in includes/ directory
+- Not publicly accessible via URL
+
+---
+
+## 🚀 Deployment
+
+### **Local Testing:**
+- Counter works immediately
+- Data saved to `visitor-counter.json`
+- Test by refreshing page
+
+### **Namecheap Hosting:**
+- Upload `includes/visitor-counter.php`
+- Upload updated `includes/footer.php`
+- Ensure includes/ directory is writable
+- Counter starts automatically on first visit
+
+### **File Permissions:**
+```bash
+# If counter doesn't work, set permissions:
+chmod 755 includes/
+chmod 666 includes/visitor-counter.json
+```
+
+---
+
+## 📈 Analytics
+
+### **View Counter Data:**
+
+**Option 1: Check JSON File**
+- Open `visitor-counter.json`
+- View formatted data
+
+**Option 2: Create Admin Page**
+```php
+<?php
+$data = json_decode(file_get_contents('visitor-counter.json'), true);
+echo "Total Visits: " . $data['total_visits'];
+echo "Unique Visitors: " . $data['unique_visitors'];
+echo "Started: " . $data['last_reset'];
+?>
+```
+
+---
+
+## 🎨 Styling Options
+
+### **Current Style:**
+- Font size: 85% of normal
+- Opacity: 70%
+- Margin top: 8px
+- Icons: Eye and Users
+
+### **Make More Prominent:**
+```php
+<p class="visitor-counter" style="font-size: 1rem; opacity: 1; margin-top: 12px; font-weight: 500;">
+```
+
+### **Add Background:**
+```php
+<p class="visitor-counter" style="background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; display: inline-block;">
+```
+
+### **Center Align:**
+```php
+<div style="text-align: center;">
+    <p class="visitor-counter" style="...">
+```
+
+---
+
+## 🔄 Reset Counter
+
+### **Method 1: Delete File**
+```bash
+# Delete the JSON file
+rm visitor-counter.json
+# Counter resets on next visit
+```
+
+### **Method 2: Edit File**
+```json
+{
+    "total_visits": 0,
+    "unique_visitors": 0,
+    "last_reset": "2026-01-08 09:27:07",
+    "visitors": {}
+}
+```
+
+---
+
+## ✨ Summary
+
+**What You Get:**
+- ✅ Professional visitor counter
+- ✅ Total visits tracking
+- ✅ Unique visitors tracking
+- ✅ 24-hour uniqueness window
+- ✅ Automatic cleanup
+- ✅ Privacy-friendly
+- ✅ No database needed
+- ✅ Lightweight & fast
+
+**Display:**
+- Small, subtle footer text
+- Eye icon for visits
+- Users icon for unique visitors
+- Formatted numbers (1,234)
+
+**Files:**
+- `includes/visitor-counter.php` - Counter logic
+- `includes/footer.php` - Updated with counter
+- `visitor-counter.json` - Auto-created data file
+
+---
+
+**The visitor counter is now live and tracking! Refresh your page to see it in action.** 📊
+
+---
+
+**Created:** January 8, 2026
+**Version:** 1.0
+**Status:** ✅ Active

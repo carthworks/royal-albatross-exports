@@ -4,7 +4,7 @@
 // ===================================
 
 // ===== Initialize on DOM Load =====
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Initialize all features
     initLoader();
     initScrollProgress();
@@ -21,11 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===== Loading Animation =====
 function initLoader() {
     const loader = document.getElementById('loader');
-    
-    window.addEventListener('load', function() {
-        setTimeout(function() {
+
+    window.addEventListener('load', function () {
+        setTimeout(function () {
             loader.classList.add('hidden');
-            setTimeout(function() {
+            setTimeout(function () {
                 loader.style.display = 'none';
             }, 500);
         }, 1000);
@@ -35,8 +35,8 @@ function initLoader() {
 // ===== Scroll Progress Indicator =====
 function initScrollProgress() {
     const scrollProgress = document.getElementById('scrollProgress');
-    
-    window.addEventListener('scroll', function() {
+
+    window.addEventListener('scroll', function () {
         const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrolled = (window.scrollY / windowHeight) * 100;
         scrollProgress.style.width = scrolled + '%';
@@ -47,27 +47,27 @@ function initScrollProgress() {
 function initNavigation() {
     const navbar = document.getElementById('mainNav');
     const navLinks = document.querySelectorAll('.nav-link');
-    
+
     // Navbar scroll effect
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
     });
-    
+
     // Active section highlighting
     const sections = document.querySelectorAll('section[id]');
-    
+
     function highlightNavigation() {
         const scrollY = window.pageYOffset;
-        
+
         sections.forEach(section => {
             const sectionHeight = section.offsetHeight;
             const sectionTop = section.offsetTop - 100;
             const sectionId = section.getAttribute('id');
-            
+
             if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
                 navLinks.forEach(link => {
                     link.classList.remove('active');
@@ -78,12 +78,12 @@ function initNavigation() {
             }
         });
     }
-    
+
     window.addEventListener('scroll', highlightNavigation);
-    
+
     // Close mobile menu on link click
     navLinks.forEach(link => {
-        link.addEventListener('click', function() {
+        link.addEventListener('click', function () {
             const navbarCollapse = document.querySelector('.navbar-collapse');
             if (navbarCollapse.classList.contains('show')) {
                 const bsCollapse = new bootstrap.Collapse(navbarCollapse);
@@ -97,24 +97,24 @@ function initNavigation() {
 function initThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
     const html = document.documentElement;
-    
+
     // Check for saved theme preference
     const savedTheme = localStorage.getItem('theme') || 'light';
     html.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
-    
-    themeToggle.addEventListener('click', function() {
+
+    themeToggle.addEventListener('click', function () {
         const currentTheme = html.getAttribute('data-theme');
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
+
         html.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         updateThemeIcon(newTheme);
-        
+
         // Add transition effect
         document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
     });
-    
+
     function updateThemeIcon(theme) {
         const icon = themeToggle.querySelector('i');
         if (theme === 'dark') {
@@ -130,16 +130,16 @@ function initThemeToggle() {
 // ===== Back to Top Button =====
 function initBackToTop() {
     const backToTop = document.getElementById('backToTop');
-    
-    window.addEventListener('scroll', function() {
+
+    window.addEventListener('scroll', function () {
         if (window.scrollY > 300) {
             backToTop.classList.add('show');
         } else {
             backToTop.classList.remove('show');
         }
     });
-    
-    backToTop.addEventListener('click', function() {
+
+    backToTop.addEventListener('click', function () {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
@@ -152,23 +152,23 @@ function initCounters() {
     const counters = document.querySelectorAll('.stat-number');
     const speed = 200; // Animation speed
     let animated = false;
-    
+
     function animateCounters() {
         if (animated) return;
-        
+
         const statsSection = document.querySelector('.stats-section');
         const statsSectionTop = statsSection.offsetTop;
         const statsSectionHeight = statsSection.offsetHeight;
         const scrollY = window.pageYOffset;
-        
+
         if (scrollY > statsSectionTop - window.innerHeight + statsSectionHeight / 2) {
             animated = true;
-            
+
             counters.forEach(counter => {
                 const target = parseInt(counter.getAttribute('data-count'));
                 const increment = target / speed;
                 let count = 0;
-                
+
                 const updateCount = () => {
                     count += increment;
                     if (count < target) {
@@ -178,12 +178,12 @@ function initCounters() {
                         counter.textContent = target;
                     }
                 };
-                
+
                 updateCount();
             });
         }
     }
-    
+
     window.addEventListener('scroll', animateCounters);
 }
 
@@ -201,22 +201,22 @@ function initAOS() {
 // ===== Smooth Scroll =====
 function initSmoothScroll() {
     const links = document.querySelectorAll('a[href^="#"]');
-    
+
     links.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
-            
+
             // Skip if it's just "#" or a modal/collapse trigger
             if (href === '#' || this.hasAttribute('data-bs-toggle')) {
                 return;
             }
-            
+
             e.preventDefault();
-            
+
             const target = document.querySelector(href);
             if (target) {
                 const offsetTop = target.offsetTop - 80; // Account for fixed navbar
-                
+
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
@@ -230,18 +230,18 @@ function initSmoothScroll() {
 function initFormValidation() {
     const contactForm = document.getElementById('contactForm');
     const formMessage = document.getElementById('formMessage');
-    
+
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             // Get form data
             const formData = new FormData(contactForm);
             const data = {};
             formData.forEach((value, key) => {
                 data[key] = value;
             });
-            
+
             // Validate form
             if (validateForm(data)) {
                 // Show loading state
@@ -249,103 +249,95 @@ function initFormValidation() {
                 const originalText = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
                 submitBtn.disabled = true;
-                
-                // Simulate form submission (replace with actual AJAX call)
-                setTimeout(function() {
-                    // Success
-                    showMessage('success', 'Thank you for your inquiry! We will get back to you within 24 hours.');
-                    contactForm.reset();
-                    
-                    // Reset button
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                    
-                    // Scroll to message
-                    formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 2000);
-                
-                // For actual implementation, use:
-                /*
-                fetch('script.php', {
+
+                // Submit form via AJAX to PHP handler
+                fetch('contact-handler.php', {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showMessage('success', data.message);
-                        contactForm.reset();
-                    } else {
-                        showMessage('error', data.message);
-                    }
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                })
-                .catch(error => {
-                    showMessage('error', 'An error occurred. Please try again later.');
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                });
-                */
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showMessage('success', data.message);
+                            contactForm.reset();
+
+                            // Scroll to message
+                            formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        } else {
+                            showMessage('error', data.message);
+                        }
+
+                        // Reset button
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    })
+                    .catch(error => {
+                        console.error('Form submission error:', error);
+                        showMessage('error', 'An error occurred while sending your message. Please try again or contact us directly at royalalbatrossexports@gmail.com');
+
+                        // Reset button
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    });
             }
         });
     }
-    
+
     function validateForm(data) {
         // Name validation
         if (!data.name || data.name.trim().length < 2) {
             showMessage('error', 'Please enter a valid name.');
             return false;
         }
-        
+
         // Company validation
         if (!data.company || data.company.trim().length < 2) {
             showMessage('error', 'Please enter a valid company name.');
             return false;
         }
-        
+
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!data.email || !emailRegex.test(data.email)) {
             showMessage('error', 'Please enter a valid email address.');
             return false;
         }
-        
+
         // Phone validation
         const phoneRegex = /^[0-9\s\-\+\(\)]{10,}$/;
         if (!data.phone || !phoneRegex.test(data.phone)) {
             showMessage('error', 'Please enter a valid phone number.');
             return false;
         }
-        
+
         // Country validation
         if (!data.country || data.country.trim().length < 2) {
             showMessage('error', 'Please enter your country.');
             return false;
         }
-        
+
         // Product validation
         if (!data.product) {
             showMessage('error', 'Please select a product of interest.');
             return false;
         }
-        
+
         // Message validation
         if (!data.message || data.message.trim().length < 10) {
             showMessage('error', 'Please enter a detailed message (minimum 10 characters).');
             return false;
         }
-        
+
         return true;
     }
-    
+
     function showMessage(type, message) {
         formMessage.className = 'form-message ' + type;
         formMessage.textContent = message;
         formMessage.style.display = 'block';
-        
+
         // Auto-hide after 5 seconds
-        setTimeout(function() {
+        setTimeout(function () {
             formMessage.style.display = 'none';
         }, 5000);
     }
@@ -363,7 +355,7 @@ function initCarousels() {
             touch: true
         });
     }
-    
+
     // Testimonials carousel
     const testimonialsCarousel = document.getElementById('testimonialsCarousel');
     if (testimonialsCarousel) {
@@ -394,7 +386,7 @@ function debounce(func, wait) {
 // Throttle function for scroll events
 function throttle(func, limit) {
     let inThrottle;
-    return function() {
+    return function () {
         const args = arguments;
         const context = this;
         if (!inThrottle) {
@@ -432,7 +424,7 @@ if ('IntersectionObserver' in window) {
             }
         });
     });
-    
+
     document.querySelectorAll('img[data-src]').forEach(img => {
         imageObserver.observe(img);
     });
@@ -444,7 +436,7 @@ function preloadResources() {
         'assets/images/logo_1767183459166.png',
         'assets/images/hero_agriculture_1767183410455.png'
     ];
-    
+
     criticalImages.forEach(src => {
         const link = document.createElement('link');
         link.rel = 'preload';
@@ -465,13 +457,13 @@ function trackEvent(category, action, label) {
     //     'event_category': category,
     //     'event_label': label
     // });
-    
+
     console.log('Event tracked:', category, action, label);
 }
 
 // Track button clicks
 document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
         const btnText = this.textContent.trim();
         trackEvent('Button', 'Click', btnText);
     });
@@ -480,7 +472,7 @@ document.querySelectorAll('.btn').forEach(btn => {
 // Track WhatsApp button clicks
 const whatsappBtn = document.querySelector('.whatsapp-float');
 if (whatsappBtn) {
-    whatsappBtn.addEventListener('click', function() {
+    whatsappBtn.addEventListener('click', function () {
         trackEvent('Contact', 'WhatsApp Click', 'Floating Button');
     });
 }
@@ -488,13 +480,13 @@ if (whatsappBtn) {
 // Track form submissions
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
-    contactForm.addEventListener('submit', function() {
+    contactForm.addEventListener('submit', function () {
         trackEvent('Form', 'Submit', 'Contact Form');
     });
 }
 
 // ===== Error Handling =====
-window.addEventListener('error', function(e) {
+window.addEventListener('error', function (e) {
     console.error('Global error:', e.error);
     // Implement error reporting here if needed
 });

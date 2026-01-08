@@ -1,0 +1,301 @@
+# Email Setup Guide - Contact Form
+## Royal Albatross Exports
+
+---
+
+## 🚨 Why Email is Failing Locally
+
+The error you're seeing:
+```json
+{
+    "success": false,
+    "message": "Failed to send email. Please try again later or contact us directly."
+}
+```
+
+**Reason:** PHP's `mail()` function requires a properly configured mail server. On your local Windows machine, there is no mail server configured, so emails cannot be sent.
+
+---
+
+## ✅ Solutions
+
+### **Option 1: Use Test Handler (Recommended for Local Testing)**
+
+I've created `contact-handler-test.php` that saves submissions to a file instead of sending emails.
+
+#### To Use:
+1. **Update form action** in `includes/contact-section.php`:
+   ```html
+   <form id="contactForm" class="contact-form" action="contact-handler-test.php" method="POST">
+   ```
+
+2. **Update JavaScript** in `js/script.js` (line ~260):
+   ```javascript
+   fetch('contact-handler-test.php', {
+   ```
+
+3. **Test the form** - Submissions will be saved to `test-submissions.txt`
+
+4. **Check the file** - Open `test-submissions.txt` to see all captured data
+
+5. **Before deploying to Namecheap** - Change back to `contact-handler.php`
+
+---
+
+### **Option 2: Configure Local Mail Server (Advanced)**
+
+#### For Windows (Using XAMPP):
+
+1. **Install XAMPP** (if not already installed)
+
+2. **Configure sendmail** in XAMPP:
+   - Edit `C:\xampp\sendmail\sendmail.ini`
+   - Add Gmail SMTP settings:
+     ```ini
+     smtp_server=smtp.gmail.com
+     smtp_port=587
+     smtp_ssl=tls
+     auth_username=your-email@gmail.com
+     auth_password=your-app-password
+     force_sender=your-email@gmail.com
+     ```
+
+3. **Edit php.ini**:
+   ```ini
+   [mail function]
+   sendmail_path = "C:\xampp\sendmail\sendmail.exe -t"
+   ```
+
+4. **Create Gmail App Password**:
+   - Go to Google Account → Security
+   - Enable 2-Step Verification
+   - Generate App Password
+   - Use that password in sendmail.ini
+
+5. **Restart Apache**
+
+---
+
+### **Option 3: Use PHPMailer (Best for Production)**
+
+PHPMailer is more reliable than PHP's `mail()` function.
+
+#### Installation:
+```bash
+composer require phpmailer/phpmailer
+```
+
+#### Sample Code:
+```php
+<?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
+$mail = new PHPMailer(true);
+
+try {
+    // Server settings
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'your-email@gmail.com';
+    $mail->Password   = 'your-app-password';
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = 587;
+
+    // Recipients
+    $mail->setFrom('noreply@yourdomain.com', 'Royal Albatross Exports');
+    $mail->addAddress('royalalbatrossexports@gmail.com');
+    $mail->addReplyTo($email, $name);
+
+    // Content
+    $mail->isHTML(true);
+    $mail->Subject = '[Website Inquiry] New Inquiry from ' . $name;
+    $mail->Body    = $emailBody;
+
+    $mail->send();
+    echo 'Message has been sent';
+} catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+?>
+```
+
+---
+
+### **Option 4: Deploy to Namecheap (Easiest)**
+
+**On Namecheap shared hosting, the `mail()` function works automatically!**
+
+#### Steps:
+1. Upload all files to Namecheap
+2. Make sure you're using `contact-handler.php` (not the test version)
+3. Update email in `contact-handler.php` line 25:
+   ```php
+   'from_email' => 'noreply@yourdomain.com',
+   ```
+4. Create the email account in cPanel
+5. Test the form - it will work!
+
+---
+
+## 🧪 Testing Locally
+
+### Using Test Handler:
+
+1. **Change form action** to `contact-handler-test.php`
+2. **Submit the form**
+3. **Check `test-submissions.txt`** - You'll see:
+   ```
+   ================================================================================
+   NEW INQUIRY RECEIVED
+   ================================================================================
+   Date/Time: January 8, 2026, 9:15:41 am IST
+
+   CUSTOMER INFORMATION:
+   --------------------
+   Name: John Doe
+   Company: ABC Company
+   Email: john@example.com
+   Phone: +1-555-0123
+   Country: United States
+   Product Interest: Agricultural Products
+   Estimated Quantity: 5 tons
+   Message: Looking for fresh vegetables...
+
+   VISITOR INFORMATION:
+   -------------------
+   IP Address: 127.0.0.1
+   Browser: Google Chrome
+   Operating System: Windows
+   Timezone: America/New_York (UTC-5)
+   Browser Language: en-US
+   Referrer: Direct Visit
+   User Agent: Mozilla/5.0...
+   Human Verification: Passed
+   ```
+
+---
+
+## 📋 Quick Fix Checklist
+
+### For Local Testing:
+- [ ] Use `contact-handler-test.php`
+- [ ] Update form action
+- [ ] Update JavaScript fetch URL
+- [ ] Test form submission
+- [ ] Check `test-submissions.txt`
+
+### Before Deploying to Namecheap:
+- [ ] Change back to `contact-handler.php`
+- [ ] Update `from_email` to your domain
+- [ ] Create email account in cPanel
+- [ ] Test on live server
+
+---
+
+## 🔧 Namecheap Email Setup
+
+### Step 1: Create Email Account
+1. Login to cPanel
+2. Go to **Email Accounts**
+3. Create: `noreply@yourdomain.com`
+4. Set a strong password
+
+### Step 2: Update PHP File
+Edit `contact-handler.php` line 25:
+```php
+'from_email' => 'noreply@yourdomain.com', // Change this!
+```
+
+### Step 3: Test
+1. Upload files
+2. Visit your website
+3. Submit contact form
+4. Check email!
+
+---
+
+## 🐛 Troubleshooting
+
+### Email not sending on Namecheap?
+
+**Check 1: Email account exists**
+- Verify in cPanel → Email Accounts
+
+**Check 2: From email matches domain**
+```php
+// ❌ Wrong - different domain
+'from_email' => 'noreply@gmail.com'
+
+// ✅ Correct - same domain
+'from_email' => 'noreply@yourdomain.com'
+```
+
+**Check 3: Check spam folder**
+- Emails might be in spam initially
+
+**Check 4: Check error logs**
+- cPanel → Error Logs
+- Look for mail() errors
+
+**Check 5: Contact Namecheap support**
+- They can verify mail() is enabled
+- Usually enabled by default
+
+---
+
+## 📧 Email Delivery Tips
+
+### Improve Deliverability:
+
+1. **Use domain email** - Not Gmail/Yahoo
+2. **Set up SPF record** - In cPanel DNS
+3. **Set up DKIM** - In cPanel Email Authentication
+4. **Avoid spam words** - In subject/body
+5. **Test with multiple emails** - Gmail, Outlook, Yahoo
+
+### SPF Record (cPanel):
+```
+v=spf1 include:_spf.mx.cloudflare.net ~all
+```
+
+---
+
+## ✅ Recommended Approach
+
+### For Development (Local):
+✅ Use `contact-handler-test.php`
+✅ Check `test-submissions.txt`
+✅ Verify all data is captured
+
+### For Production (Namecheap):
+✅ Use `contact-handler.php`
+✅ Create domain email account
+✅ Update `from_email` setting
+✅ Test thoroughly
+
+---
+
+## 📝 Summary
+
+**Problem:** Local mail server not configured
+**Solution:** Use test handler locally, regular handler on Namecheap
+**Files:** 
+- `contact-handler-test.php` - For local testing
+- `contact-handler.php` - For production
+- `test-submissions.txt` - Where test data is saved
+
+**Next Steps:**
+1. Use test handler for local development
+2. Deploy to Namecheap when ready
+3. Switch to regular handler
+4. Configure email account
+5. Test and enjoy!
+
+---
+
+**Updated:** January 8, 2026
+**Status:** Ready to Test Locally
