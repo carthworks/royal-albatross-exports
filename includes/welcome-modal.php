@@ -274,10 +274,26 @@
 
 <script>
 // Welcome Modal Logic
-document.addEventListener('DOMContentLoaded', function() {
-    const welcomeModal = document.getElementById('welcomeModal');
+(function() {
+    'use strict';
     
-    if (welcomeModal) {
+    function initWelcomeModal() {
+        const welcomeModal = document.getElementById('welcomeModal');
+        
+        if (!welcomeModal) {
+            console.log('Welcome modal element not found');
+            return;
+        }
+        
+        // Check if Bootstrap is loaded
+        if (typeof bootstrap === 'undefined') {
+            console.log('Bootstrap not loaded yet, waiting...');
+            setTimeout(initWelcomeModal, 100);
+            return;
+        }
+        
+        console.log('Initializing welcome modal...');
+        
         // Check if modal has been shown in the last 2 days
         const lastShown = localStorage.getItem('welcomeModalLastShown');
         const twoDaysInMs = 2 * 24 * 60 * 60 * 1000; // 2 days in milliseconds
@@ -287,25 +303,50 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!lastShown) {
             // Never shown before
+            console.log('Modal never shown before - will display');
             shouldShow = true;
         } else {
             const lastShownTime = parseInt(lastShown);
-            if (now - lastShownTime > twoDaysInMs) {
+            const timeSinceLastShown = now - lastShownTime;
+            const daysAgo = timeSinceLastShown / (24 * 60 * 60 * 1000);
+            console.log(`Modal last shown ${daysAgo.toFixed(2)} days ago`);
+            
+            if (timeSinceLastShown > twoDaysInMs) {
                 // More than 2 days have passed
+                console.log('More than 2 days passed - will display');
                 shouldShow = true;
+            } else {
+                console.log('Less than 2 days - will not display');
             }
         }
         
         if (shouldShow) {
             // Show the modal after a short delay for better UX
             setTimeout(function() {
-                const modal = new bootstrap.Modal(welcomeModal);
-                modal.show();
-                
-                // Store the current timestamp
-                localStorage.setItem('welcomeModalLastShown', now.toString());
-            }, 1000); // 1 second delay
+                try {
+                    const modal = new bootstrap.Modal(welcomeModal, {
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    modal.show();
+                    console.log('Welcome modal displayed successfully');
+                    
+                    // Store the current timestamp
+                    localStorage.setItem('welcomeModalLastShown', now.toString());
+                } catch (error) {
+                    console.error('Error showing welcome modal:', error);
+                }
+            }, 1500); // 1.5 second delay
         }
     }
-});
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initWelcomeModal);
+    } else {
+        // DOM already loaded
+        initWelcomeModal();
+    }
+})();
 </script>
+

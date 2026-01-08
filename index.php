@@ -382,7 +382,6 @@ include_once 'includes/visitor-tracker.php';
     <!-- Custom JS -->
     <script src="js/script.js"></script>
     <script src="js/new-features.js"></script>
-    <script src="js/timezone-capture.js"></script>
 </body>
 
 </html>
