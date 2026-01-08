@@ -13,7 +13,7 @@
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <h4>Our Location</h4>
-                        <p>No. A-201, VKC Layout, Perur Main Road, Selvapuram, Coimbatore-641024, Tamil Nadu, India
+                        <p>S.F.349/1, Oornaicker Thottam, Priya Gardens, Poochiyur Road, Coimbatore-641031, Tamil Nadu, India
                         </p>
                     </div>
                     <div class="info-card">
@@ -21,7 +21,7 @@
                             <i class="fas fa-phone"></i>
                         </div>
                         <h4>Phone</h4>
-                        <p><a href="tel:+919442229082">+91 94422 29082</a>
+                        <p><a href="tel:+919442229082">+91 94422 29082, +91 63834 24438</a>
                         </p>
                     </div>
                     <div class="info-card">
@@ -29,7 +29,9 @@
                             <i class="fas fa-envelope"></i>
                         </div>
                         <h4>Email</h4>
-                        <p><a href="mailto:royalalbatrossexports@gmail.com">royalalbatrossexports@gmail.com</a></p>
+                        <p><a href="mailto:royalalbatrossexports@gmail.com">royalalbatrossexports@gmail.com</a>
+                        <a href="mailto:info@royalalbatrossexports.in">info@royalalbatrossexports.in</a>
+                    </p>
                     </div>
                     <div class="social-links">
                         <a href="https://www.facebook.com/RoyalAlbatrossExports" target="_blank"
