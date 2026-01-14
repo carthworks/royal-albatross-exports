@@ -80,10 +80,13 @@
             overflow-x: auto;
             max-height: 600px;
             overflow-y: auto;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 1800px;
         }
         thead {
             position: sticky;
@@ -93,9 +96,11 @@
             z-index: 10;
         }
         thead th {
-            padding: 15px;
+            padding: 15px 10px;
             text-align: left;
             font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
         tbody tr {
             border-bottom: 1px solid #e9ecef;
@@ -105,8 +110,9 @@
             background: #f8f9fa;
         }
         tbody td {
-            padding: 12px 15px;
+            padding: 12px 10px;
             color: #333;
+            font-size: 0.9rem;
         }
         .ip-address {
             font-family: 'Courier New', monospace;
@@ -211,10 +217,24 @@
     // Calculate statistics
     $totalVisits = count($visitorLogs);
     $uniqueIPs = count(array_unique(array_column($visitorLogs, 'ip_address')));
+    $uniqueSessions = count(array_unique(array_column($visitorLogs, 'session_id')));
+    
     $browsers = array_count_values(array_column($visitorLogs, 'browser'));
     $topBrowser = $browsers ? array_keys($browsers, max($browsers))[0] : 'N/A';
+    
     $operatingSystems = array_count_values(array_column($visitorLogs, 'os'));
     $topOS = $operatingSystems ? array_keys($operatingSystems, max($operatingSystems))[0] : 'N/A';
+    
+    $deviceTypes = array_count_values(array_column($visitorLogs, 'device_type'));
+    $topDevice = $deviceTypes ? array_keys($deviceTypes, max($deviceTypes))[0] : 'N/A';
+    
+    $trafficSources = array_count_values(array_column($visitorLogs, 'traffic_source'));
+    $topTrafficSource = $trafficSources ? array_keys($trafficSources, max($trafficSources))[0] : 'N/A';
+    
+    // Calculate average session duration
+    $timeSpentValues = array_column($visitorLogs, 'time_spent_seconds');
+    $avgTimeSpent = $timeSpentValues ? array_sum($timeSpentValues) / count($timeSpentValues) : 0;
+    $avgTimeSpentFormatted = gmdate("i:s", (int)$avgTimeSpent);
     
     // Get today's visits
     $today = date('Y-m-d');
@@ -222,6 +242,10 @@
         return strpos($log['timestamp'], $today) === 0;
     });
     $todayCount = count($todayVisits);
+    
+    // Get top countries
+    $countries = array_count_values(array_filter(array_column($visitorLogs, 'country')));
+    $topCountry = $countries ? array_keys($countries, max($countries))[0] : 'N/A';
     ?>
 
     <div class="admin-container">
@@ -229,7 +253,7 @@
         <div class="admin-header d-flex justify-content-between align-items-center">
             <div>
                 <h1><i class="fas fa-chart-line"></i> Visitor Analytics Dashboard</h1>
-                <p class="text-muted mb-0">Real-time visitor tracking and IP monitoring</p>
+                <p class="text-muted mb-0">Comprehensive visitor tracking with session analytics</p>
             </div>
             <div>
                 <button onclick="exportToCSV()" class="export-btn me-2">
@@ -254,6 +278,11 @@
                 <p>Unique Visitors</p>
             </div>
             <div class="stat-card">
+                <i class="fas fa-fingerprint"></i>
+                <h3><?php echo number_format($uniqueSessions); ?></h3>
+                <p>Unique Sessions</p>
+            </div>
+            <div class="stat-card">
                 <i class="fas fa-calendar-day"></i>
                 <h3><?php echo number_format($todayCount); ?></h3>
                 <p>Today's Visits</p>
@@ -262,6 +291,26 @@
                 <i class="fas fa-globe"></i>
                 <h3><?php echo $topBrowser; ?></h3>
                 <p>Top Browser</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3><?php echo $topDevice; ?></h3>
+                <p>Top Device Type</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-share-alt"></i>
+                <h3 style="font-size: 1.3rem;"><?php echo $topTrafficSource; ?></h3>
+                <p>Top Traffic Source</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-clock"></i>
+                <h3><?php echo $avgTimeSpentFormatted; ?></h3>
+                <p>Avg. Session Time</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3><?php echo $topCountry; ?></h3>
+                <p>Top Country</p>
             </div>
         </div>
 
@@ -285,10 +334,18 @@
                             <th>#</th>
                             <th>Timestamp</th>
                             <th>IP Address</th>
+                            <th>Session ID</th>
+                            <th>Country</th>
+                            <th>City</th>
                             <th>Browser</th>
                             <th>OS</th>
-                            <th>Referer</th>
+                            <th>Device Type</th>
                             <th>Page</th>
+                            <th>Referer</th>
+                            <th>Traffic Source</th>
+                            <th>Session Start</th>
+                            <th>Session End</th>
+                            <th>Time Spent</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -297,18 +354,37 @@
                             <td><?php echo $index + 1; ?></td>
                             <td><?php echo htmlspecialchars($log['timestamp']); ?></td>
                             <td class="ip-address"><?php echo htmlspecialchars($log['ip_address']); ?></td>
+                            <td style="font-family: 'Courier New', monospace; font-size: 0.85rem;" title="<?php echo htmlspecialchars($log['session_id'] ?? 'N/A'); ?>">
+                                <?php echo htmlspecialchars(substr($log['session_id'] ?? 'N/A', 0, 12) . '...'); ?>
+                            </td>
+                            <td><span class="badge bg-info"><?php echo htmlspecialchars($log['country'] ?? 'Unknown'); ?></span></td>
+                            <td><?php echo htmlspecialchars($log['city'] ?? 'Unknown'); ?></td>
                             <td><span class="badge bg-primary"><?php echo htmlspecialchars($log['browser']); ?></span></td>
                             <td><span class="badge bg-success"><?php echo htmlspecialchars($log['os']); ?></span></td>
-                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<?php echo htmlspecialchars($log['referer']); ?>">
+                            <td><span class="badge bg-secondary"><?php echo htmlspecialchars($log['device_type'] ?? 'Unknown'); ?></span></td>
+                            <td><?php echo htmlspecialchars($log['page'] ?? $log['request_uri']); ?></td>
+                            <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<?php echo htmlspecialchars($log['referer']); ?>">
                                 <?php echo htmlspecialchars($log['referer']); ?>
                             </td>
-                            <td><?php echo htmlspecialchars($log['request_uri']); ?></td>
+                            <td><span class="badge bg-warning text-dark"><?php echo htmlspecialchars($log['traffic_source'] ?? 'Unknown'); ?></span></td>
+                            <td style="font-size: 0.85rem;"><?php echo htmlspecialchars($log['session_start'] ?? 'N/A'); ?></td>
+                            <td style="font-size: 0.85rem;"><?php echo htmlspecialchars($log['session_end'] ?? 'N/A'); ?></td>
+                            <td>
+                                <?php 
+                                $seconds = $log['time_spent_seconds'] ?? 0;
+                                if ($seconds < 60) {
+                                    echo $seconds . 's';
+                                } else {
+                                    echo gmdate("i:s", $seconds);
+                                }
+                                ?>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                         
                         <?php if (empty($visitorLogs)): ?>
                         <tr>
-                            <td colspan="7" class="text-center text-muted py-5">
+                            <td colspan="15" class="text-center text-muted py-5">
                                 <i class="fas fa-inbox fa-3x mb-3"></i>
                                 <p>No visitor logs yet</p>
                             </td>

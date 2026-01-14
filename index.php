@@ -43,6 +43,15 @@ include_once 'includes/visitor-tracker.php';
     <link rel="stylesheet" href="css/new-features.css">
 </head>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BSREZHSWPL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BSREZHSWPL');
+</script>
 <body>
     <!-- Welcome Modal -->
     <?php include 'includes/welcome-modal.php'; ?>
