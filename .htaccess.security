@@ -1,0 +1,194 @@
+# Royal Albatross Exports - Security Configuration
+# Apache .htaccess file for enhanced website security
+
+# ============================================================================
+# GENERAL SECURITY
+# ============================================================================
+
+# Disable directory browsing
+Options -Indexes
+
+# Disable server signature
+ServerSignature Off
+
+# Protect .htaccess and other sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Protect sensitive files
+<FilesMatch "(^#.*#|\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|sw[op])|~)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# ============================================================================
+# SECURITY HEADERS
+# ============================================================================
+
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # XSS Protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Content Security Policy
+    Header always set Content-Security-Policy "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:;"
+    
+    # Permissions Policy
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # Remove server information
+    Header always unset X-Powered-By
+    Header unset X-Powered-By
+</IfModule>
+
+# ============================================================================
+# HTTPS ENFORCEMENT (Uncomment if you have SSL certificate)
+# ============================================================================
+
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{HTTPS} off
+#     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# </IfModule>
+
+# ============================================================================
+# BLOCK BAD BOTS AND SCRAPERS
+# ============================================================================
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Block bad user agents
+    RewriteCond %{HTTP_USER_AGENT} (libwww-perl|wget|python|nikto|curl|scan|java|winhttp|clshttp|loader) [NC,OR]
+    RewriteCond %{HTTP_USER_AGENT} (;|<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
+    RewriteCond %{HTTP_USER_AGENT} (sqlmap|nmap|masscan|nessus|burp|acunetix) [NC]
+    RewriteRule .* - [F,L]
+    
+    # Block suspicious requests
+    RewriteCond %{QUERY_STRING} (eval\(|base64_decode|gzip|system\(|exec\() [NC,OR]
+    RewriteCond %{QUERY_STRING} (GLOBALS|REQUEST)(=|\[|%) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (\\|\.\.\.|\.\./|~|`|<|>|\|) [NC,OR]
+    RewriteCond %{QUERY_STRING} (boot\.ini|etc/passwd|self/environ) [NC,OR]
+    RewriteCond %{QUERY_STRING} (thumbs?(_editor|open)?|tim(thumb)?)\.php [NC,OR]
+    RewriteCond %{QUERY_STRING} (\'|\")(.*)(drop|insert|md5|select|union) [NC]
+    RewriteRule .* - [F,L]
+    
+    # Block SQL injection attempts
+    RewriteCond %{QUERY_STRING} (concat|union|select|insert|cast|set|declare|drop|update|md5|benchmark) [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# ============================================================================
+# LIMIT REQUEST METHODS
+# ============================================================================
+
+<LimitExcept GET POST HEAD>
+    Order deny,allow
+    Deny from all
+</LimitExcept>
+
+# ============================================================================
+# PROTECT AGAINST DOS ATTACKS
+# ============================================================================
+
+<IfModule mod_reqtimeout.c>
+    RequestReadTimeout header=20-40,MinRate=500 body=20,MinRate=500
+</IfModule>
+
+# ============================================================================
+# DISABLE PHP EXECUTION IN UPLOAD DIRECTORIES
+# ============================================================================
+
+<Directory "uploads">
+    <FilesMatch "\.php$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</Directory>
+
+# ============================================================================
+# BLOCK ACCESS TO SENSITIVE FILES
+# ============================================================================
+
+# Block access to configuration files
+<FilesMatch "(\.env|\.git|\.htaccess|\.htpasswd|composer\.json|composer\.lock|package\.json|package-lock\.json)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to log files
+<FilesMatch "\.(log|json)$">
+    Order allow,deny
+    Deny from all
+    
+    # Allow specific files if needed
+    <FilesMatch "^(visitor-logs|security-logs|blocked-ips|rate-limits|inquiries)\.">
+        # These are protected by PHP authentication
+    </FilesMatch>
+</FilesMatch>
+
+# ============================================================================
+# COMPRESSION (Optional - improves performance)
+# ============================================================================
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# ============================================================================
+# BROWSER CACHING (Optional - improves performance)
+# ============================================================================
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# ============================================================================
+# CUSTOM ERROR PAGES (Optional)
+# ============================================================================
+
+# ErrorDocument 403 /error-403.html
+# ErrorDocument 404 /error-404.html
+# ErrorDocument 500 /error-500.html
+
+# ============================================================================
+# IP BLOCKING (Add malicious IPs here)
+# ============================================================================
+
+# <Limit GET POST>
+#     Order allow,deny
+#     Deny from 123.456.789.0
+#     Deny from 98.765.432.1
+#     Allow from all
+# </Limit>
+
+# ============================================================================
+# PROTECT ADMIN AREAS (Optional - add IP whitelist)
+# ============================================================================
+
+# <FilesMatch "(admin-|security-).*\.php$">
+#     Order deny,allow
+#     Deny from all
+#     Allow from 127.0.0.1
+#     Allow from YOUR_IP_ADDRESS
+# </FilesMatch>

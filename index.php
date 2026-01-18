@@ -1,6 +1,40 @@
 <?php
-// Track visitor information
-include_once 'includes/visitor-tracker.php';
+// Enable error reporting for debugging (disable in production)
+error_reporting(E_ALL);
+ini_set('display_errors', 0); // Don't display errors to users
+ini_set('log_errors', 1);
+ini_set('error_log', 'php-errors.log');
+
+// Start output buffering to prevent "headers already sent" errors
+ob_start();
+
+// Start session before including files
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+try {
+    // Include security module and initialize
+    if (file_exists('includes/security.php')) {
+        require_once 'includes/security.php';
+        
+        // Only initialize security if function exists
+        if (function_exists('initSecurity')) {
+            initSecurity();
+        }
+    }
+
+    // Include visitor tracker (will log visitor info)
+    if (file_exists('includes/visitor-tracker.php')) {
+        require_once 'includes/visitor-tracker.php';
+    }
+} catch (Exception $e) {
+    // Log the error
+    error_log("Error in index.php: " . $e->getMessage());
+    
+    // Don't show error to users, just continue without security/tracking
+    // The site will still work, just without those features
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,17 +75,18 @@ include_once 'includes/visitor-tracker.php';
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/new-features.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSREZHSWPL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BSREZHSWPL');
+    </script>
 </head>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BSREZHSWPL"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-BSREZHSWPL');
-</script>
 <body>
     <!-- Welcome Modal -->
     <?php include 'includes/welcome-modal.php'; ?>

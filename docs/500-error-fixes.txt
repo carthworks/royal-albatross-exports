@@ -1,0 +1,48 @@
+# 500 Internal Server Error - Troubleshooting Guide
+
+## What Was Fixed
+
+### 1. Error Handling Added
+- Added try-catch blocks to prevent fatal errors
+- Added error suppression (@) for file operations
+- Configured proper error logging to php-errors.log
+
+### 2. File Permission Issues Resolved
+- Added @ suppression for file_put_contents operations
+- Made visitor tracking non-critical (fails silently)
+- Made security logging non-critical (fails silently)
+
+### 3. Header Issues Fixed
+- Added headers_sent() check before sending headers
+- Added @ suppression for all header() calls
+- Ensured ob_start() is called first
+
+### 4. Content Security Policy Updated
+- Relaxed CSP to allow Google Analytics
+- Allowed YouTube embeds (iframe)
+- Allowed unpkg.com for AOS animations
+
+## How to Test
+
+Step 1: Visit https://royalalbatrossexports.in/test-debug.php
+Step 2: Check php-errors.log file
+Step 3: Visit https://royalalbatrossexports.in/index.php
+
+## Common Issues
+
+Issue 1: File Permission Errors
+Solution: chmod 666 *.json *.log
+
+Issue 2: Headers Already Sent
+Solution: Already fixed with ob_start() and headers_sent() check
+
+Issue 3: External API Timeout
+Solution: Already fixed with @ suppression and try-catch
+
+## Files Modified
+
+1. index.php - Added error handling
+2. includes/security.php - Added header checks
+3. includes/visitor-tracker.php - Added try-catch
+4. .htaccess - Added PHP configuration
+5. test-debug.php - Diagnostic script

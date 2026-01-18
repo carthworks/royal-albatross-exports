@@ -54,26 +54,7 @@ function getVisitorInfo() {
     return $info;
 }
 
-// Get real client IP address
-function getClientIP() {
-    $ipAddress = '';
-    if (isset($_SERVER['HTTP_CLIENT_IP'])) {
-        $ipAddress = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } elseif (isset($_SERVER['HTTP_X_FORWARDED'])) {
-        $ipAddress = $_SERVER['HTTP_X_FORWARDED'];
-    } elseif (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
-        $ipAddress = $_SERVER['HTTP_FORWARDED_FOR'];
-    } elseif (isset($_SERVER['HTTP_FORWARDED'])) {
-        $ipAddress = $_SERVER['HTTP_FORWARDED'];
-    } elseif (isset($_SERVER['REMOTE_ADDR'])) {
-        $ipAddress = $_SERVER['REMOTE_ADDR'];
-    } else {
-        $ipAddress = 'UNKNOWN';
-    }
-    return $ipAddress;
-}
+// Note: getClientIP() function is defined in security.php which is loaded before this file
 
 // Get country from IP (using free API)
 function getCountryFromIP($ip) {
@@ -183,25 +164,32 @@ function calculateTimeSpent() {
     return $now - $start;
 }
 
-// Load existing logs
-$visitorLogs = [];
-if (file_exists($visitorLogFile)) {
-    $json = file_get_contents($visitorLogFile);
-    $existingLogs = json_decode($json, true);
-    if ($existingLogs && is_array($existingLogs)) {
-        $visitorLogs = $existingLogs;
+// Load existing logs and track visitor (with error handling)
+try {
+    $visitorLogs = [];
+    if (file_exists($visitorLogFile)) {
+        $json = @file_get_contents($visitorLogFile);
+        if ($json) {
+            $existingLogs = json_decode($json, true);
+            if ($existingLogs && is_array($existingLogs)) {
+                $visitorLogs = $existingLogs;
+            }
+        }
     }
+
+    // Add new visitor log
+    $visitorLogs[] = getVisitorInfo();
+
+    // Keep only last 1000 entries to prevent file from getting too large
+    if (count($visitorLogs) > 1000) {
+        $visitorLogs = array_slice($visitorLogs, -1000);
+    }
+
+    // Save updated logs (suppress errors if file is not writable)
+    @file_put_contents($visitorLogFile, json_encode($visitorLogs, JSON_PRETTY_PRINT));
+} catch (Exception $e) {
+    // Silently fail - visitor tracking is not critical
+    error_log("Visitor tracking error: " . $e->getMessage());
 }
-
-// Add new visitor log
-$visitorLogs[] = getVisitorInfo();
-
-// Keep only last 1000 entries to prevent file from getting too large
-if (count($visitorLogs) > 1000) {
-    $visitorLogs = array_slice($visitorLogs, -1000);
-}
-
-// Save updated logs
-file_put_contents($visitorLogFile, json_encode($visitorLogs, JSON_PRETTY_PRINT));
 
 ?>

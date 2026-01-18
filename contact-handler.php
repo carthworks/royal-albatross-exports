@@ -22,6 +22,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 $config = [
     'recipient_email' => 'royalalbatrossexports@gmail.com',
     'cc_email' => 'info@royalalbatrossexports.in', // Optional CC email
+    'bcc_email' => 'tkarthikeyan@gmail.com', // Optional BCC email
     'from_email' => 'noreply@royalalbatrossexports.in',
     'from_name' => 'Royal Albatross Exports Website',
     'subject_prefix' => '[Website Inquiry]',
@@ -358,9 +359,153 @@ if ($config['enable_auto_reply']) {
 $logEntry = date('Y-m-d H:i:s') . " | {$name} | {$email} | {$company} | {$productName} | IP: {$ipAddress} | Browser: {$browser} | OS: {$operatingSystem}\n";
 file_put_contents('inquiries.log', $logEntry, FILE_APPEND);
 
+// Log form submission to visitor logs
+logFormSubmission($name, $email, $company, $phone, $country, $productName, $quantity, $message, $ipAddress, $userAgent, $referrer, $browser, $operatingSystem, $timezone);
+
 // Send success response
 sendResponse(true, 'Thank you for your inquiry! We will get back to you within 24 hours.', [
     'inquiry_id' => uniqid('INQ-'),
     'timestamp' => date('Y-m-d H:i:s')
 ]);
+
+/**
+ * Log contact form submission to visitor logs
+ */
+function logFormSubmission($name, $email, $company, $phone, $country, $productName, $quantity, $message, $ipAddress, $userAgent, $referrer, $browser, $operatingSystem, $timezone) {
+    // Start session if not already started
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
+    // Generate or retrieve session ID
+    if (!isset($_SESSION['visitor_session_id'])) {
+        $_SESSION['visitor_session_id'] = uniqid('sess_', true);
+        $_SESSION['session_start'] = date('Y-m-d H:i:s');
+    }
+    
+    // Get device type
+    function getDeviceType($userAgent) {
+        if (preg_match('/mobile|android|iphone|ipod|blackberry|iemobile|opera mini/i', $userAgent)) {
+            return 'Mobile';
+        } elseif (preg_match('/tablet|ipad|playbook|silk/i', $userAgent)) {
+            return 'Tablet';
+        }
+        return 'Desktop';
+    }
+    
+    // Get traffic source
+    function getTrafficSource($referer) {
+        if ($referer === 'Direct Visit' || empty($referer)) {
+            return 'Direct';
+        }
+        
+        $referer = strtolower($referer);
+        
+        // Search engines
+        if (strpos($referer, 'google') !== false) return 'Google Search';
+        if (strpos($referer, 'bing') !== false) return 'Bing Search';
+        if (strpos($referer, 'yahoo') !== false) return 'Yahoo Search';
+        if (strpos($referer, 'duckduckgo') !== false) return 'DuckDuckGo';
+        
+        // Social media
+        if (strpos($referer, 'facebook') !== false) return 'Facebook';
+        if (strpos($referer, 'twitter') !== false || strpos($referer, 't.co') !== false) return 'Twitter';
+        if (strpos($referer, 'linkedin') !== false) return 'LinkedIn';
+        if (strpos($referer, 'instagram') !== false) return 'Instagram';
+        if (strpos($referer, 'youtube') !== false) return 'YouTube';
+        
+        // Extract domain
+        $host = parse_url($referer, PHP_URL_HOST);
+        return $host ? 'Referral: ' . $host : 'Other';
+    }
+    
+    // Get country and city from IP (using free API)
+    function getLocationFromIP($ip) {
+        if ($ip === 'UNKNOWN' || $ip === '127.0.0.1' || strpos($ip, '192.168.') === 0) {
+            return ['country' => 'Local/Unknown', 'city' => 'Local/Unknown'];
+        }
+        
+        try {
+            $response = @file_get_contents("http://ip-api.com/json/{$ip}?fields=country,city");
+            if ($response) {
+                $data = json_decode($response, true);
+                return [
+                    'country' => $data['country'] ?? 'Unknown',
+                    'city' => $data['city'] ?? 'Unknown'
+                ];
+            }
+        } catch (Exception $e) {
+            // Silently fail
+        }
+        return ['country' => 'Unknown', 'city' => 'Unknown'];
+    }
+    
+    // Calculate time spent
+    $timeSpent = 0;
+    if (isset($_SESSION['session_start'])) {
+        $start = strtotime($_SESSION['session_start']);
+        $now = time();
+        $timeSpent = $now - $start;
+    }
+    
+    // Get location data
+    $location = getLocationFromIP($ipAddress);
+    
+    // Prepare form submission log entry
+    $formSubmissionLog = [
+        'timestamp' => date('Y-m-d H:i:s'),
+        'ip_address' => $ipAddress,
+        'session_id' => $_SESSION['visitor_session_id'],
+        'user_agent' => $userAgent,
+        'referer' => $referrer,
+        'request_uri' => '/contact-handler.php',
+        'page' => 'contact-handler.php',
+        'country' => $location['country'],
+        'city' => $location['city'],
+        'browser' => $browser,
+        'os' => $operatingSystem,
+        'device_type' => getDeviceType($userAgent),
+        'traffic_source' => getTrafficSource($referrer),
+        'session_start' => $_SESSION['session_start'],
+        'session_end' => date('Y-m-d H:i:s'),
+        'time_spent_seconds' => $timeSpent,
+        
+        // Form submission specific data
+        'event_type' => 'FORM_SUBMISSION',
+        'form_data' => [
+            'name' => $name,
+            'email' => $email,
+            'company' => $company,
+            'phone' => $phone,
+            'country_input' => $country,
+            'product' => $productName,
+            'quantity' => $quantity,
+            'message' => substr($message, 0, 200), // Truncate message to 200 chars
+            'timezone' => $timezone
+        ]
+    ];
+    
+    // Load existing visitor logs
+    $visitorLogFile = 'visitor-logs.json';
+    $visitorLogs = [];
+    
+    if (file_exists($visitorLogFile)) {
+        $json = file_get_contents($visitorLogFile);
+        $existingLogs = json_decode($json, true);
+        if ($existingLogs && is_array($existingLogs)) {
+            $visitorLogs = $existingLogs;
+        }
+    }
+    
+    // Add form submission log
+    $visitorLogs[] = $formSubmissionLog;
+    
+    // Keep only last 1000 entries
+    if (count($visitorLogs) > 1000) {
+        $visitorLogs = array_slice($visitorLogs, -1000);
+    }
+    
+    // Save updated logs
+    file_put_contents($visitorLogFile, json_encode($visitorLogs, JSON_PRETTY_PRINT));
+}
 ?>
