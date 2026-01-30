@@ -333,7 +333,19 @@ try {
                                 <span>24/7 Customer Support</span>
                             </div>
                         </div>
-                        <a href="#contact" class="btn btn-primary btn-lg mt-4">Get in Touch</a>
+                   <div class="d-flex flex-wrap align-items-center gap-4 mt-4">
+    <a href="#contact" class="btn btn-primary btn-lg">Get in Touch</a>
+
+    <div class="certificate-wrapper" data-aos="fade-up" data-aos-delay="200" data-bs-toggle="modal" data-bs-target="#iecModal">
+        <img
+            src="assets/images/iec_ceritficate_royalalbatroee.jpeg"
+            alt="IEC Certificate"
+            class="certificate-img"
+        >
+        <div class="certificate-label">IEC Certified</div>
+    </div>
+</div>
+
                     </div>
                 </div>
             </div>
@@ -416,6 +428,8 @@ try {
 
     <!-- Product Modals -->
     <?php include 'includes/product-modals.php'; ?>
+    <!-- IEC Certificate Modal -->
+    <?php include 'includes/certificate-modal.php'; ?>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

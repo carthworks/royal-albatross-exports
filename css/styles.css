@@ -1585,3 +1585,58 @@ h6 {
         display: none !important;
     }
 }
+
+/* ===== Certificate Image Styles ===== */
+.certificate-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-normal);
+    cursor: pointer;
+}
+
+.certificate-wrapper:hover {
+    transform: translateY(-3px);
+}
+
+.certificate-img {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+    /* Fills the square to look like a proper thumbnail */
+    object-position: center;
+    border-radius: 4px;
+    /* Frame Styling: White matting with gold/border outline */
+    border: 2px solid var(--white);
+    outline: 1px solid var(--gold);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all var(--transition-normal);
+    background-color: var(--white);
+    cursor: zoom-in;
+    /* Indicates it can be clicked to view larger */
+}
+
+.certificate-img:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+    outline-color: var(--primary-green);
+}
+
+.certificate-label {
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-green);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+[data-theme="dark"] .certificate-img {
+    border-color: var(--light-gray);
+    outline-color: var(--gold-dark);
+}
+
+[data-theme="dark"] .certificate-label {
+    color: var(--accent-green);
+}

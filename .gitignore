@@ -18,6 +18,8 @@ desktop.ini
 *.swp
 *.swo
 *~
+*.txt
+
 
 # Temporary Files
 *.tmp
