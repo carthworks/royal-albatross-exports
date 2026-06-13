@@ -46,3 +46,16 @@ AddDefaultCharset UTF-8
     Order allow,deny
     Allow from all
 </Files>
+
+# Dynamic Page Routing Rewrite Rules
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Do not rewrite if the request matches an existing file or directory
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Route clean URLs (e.g. /my-custom-page) to page.php?slug=my-custom-page
+    RewriteRule ^([a-zA-Z0-9-_]+)/?$ page.php?slug=$1 [QSA,L]
+</IfModule>
+
