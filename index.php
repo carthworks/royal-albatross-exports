@@ -47,12 +47,76 @@ try {
     <meta name="keywords"
         content="agricultural exports, flower exports, organic products, agro commodities, wholesale flowers, Coimbatore exports, India agriculture">
     <meta name="author" content="Royal Albatross Exports">
+    <title>Royal Albatross Exports - Premium Agricultural & Flower Exporter | Coimbatore, India</title>
+    <link rel="canonical" href="https://royalalbatrossexport.com/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:site_name" content="Royal Albatross Exports">
     <meta property="og:title" content="Royal Albatross Exports - Premium Agricultural & Flower Exporter">
     <meta property="og:description"
-        content="Trusted Quality. Fresh Exports. Global Reach. 16+ years of excellence in agricultural and flower exports.">
+        content="Trusted Quality. Fresh Exports. Global Reach. 16+ years of excellence in agricultural and flower exports from Coimbatore, India.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://royalalbatrossexport.com">
-    <title>Royal Albatross Exports - Premium Agricultural & Flower Exporter | Coimbatore, India</title>
+    <meta property="og:url" content="https://royalalbatrossexport.com/">
+    <meta property="og:image" content="https://royalalbatrossexport.com/assets/images/og-image.jpg">
+    <meta property="og:image:secure_url" content="https://royalalbatrossexport.com/assets/images/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Royal Albatross Exports - Agricultural and Flower Exports">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Royal Albatross Exports - Premium Agricultural & Flower Exporter">
+    <meta name="twitter:description"
+        content="Trusted Quality. Fresh Exports. Global Reach. 16+ years of excellence in agricultural and flower exports from Coimbatore, India.">
+    <meta name="twitter:image" content="https://royalalbatrossexport.com/assets/images/og-image.jpg">
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Royal Albatross Exports",
+        "image": "https://royalalbatrossexport.com/assets/images/og-image.jpg",
+        "logo": "https://royalalbatrossexport.com/assets/images/logo_1767183459166.png",
+        "url": "https://royalalbatrossexport.com",
+        "telephone": "+919442229082",
+        "email": "royalalbatrossexports@gmail.com",
+        "priceRange": "$$",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "S.F.349/1, Oornaicker Thottam, Priya Gardens, Poochiyur Road",
+            "addressLocality": "Coimbatore",
+            "addressRegion": "Tamil Nadu",
+            "postalCode": "641031",
+            "addressCountry": "IN"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 11.0168,
+            "longitude": 76.9581
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+            ],
+            "opens": "09:00",
+            "closes": "18:00"
+        },
+        "sameAs": [
+            "https://www.facebook.com/RoyalAlbatrossExports",
+            "https://www.instagram.com/royalalbatrossexports",
+            "https://www.linkedin.com/company/royalalbatrossexports",
+            "https://www.youtube.com/@RoyalAlbatrossExports"
+        ],
+        "description": "Royal Albatross Exports is a leading merchant exporter of fresh agricultural produce, flowers, and organic products from Coimbatore, India to global destinations."
+    }
+    </script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/logo_1767183459166.png">
@@ -447,7 +511,7 @@ try {
     </script>
 
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/6383424438" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+    <a href="https://wa.me/916383424438?text=Hello%20Royal%20Albatross%20Exports%2C%20I%20am%20interested%20in%20your%20export%20products.%20Please%20provide%20more%20details." class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">
         <i class="fab fa-whatsapp" aria-hidden="true"></i>
     </a>
 

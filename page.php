@@ -45,10 +45,14 @@ if (!empty($slug) && file_exists($pagesFile)) {
     }
 }
 
-// If page is not found, render premium 404 page
+// If page is not found, render 404 page
 if (!$page) {
-    header("HTTP/1.1 404 Not Found");
-    render404();
+    if (file_exists('404.php')) {
+        include '404.php';
+    } else {
+        header("HTTP/1.1 404 Not Found");
+        render404();
+    }
     exit;
 }
 
@@ -271,8 +275,8 @@ function render404() {
     <?php include 'includes/footer.php'; ?>
 
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/6383424438" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
+    <a href="https://wa.me/916383424438?text=Hello%20Royal%20Albatross%20Exports%2C%20I%20am%20interested%20in%20your%20export%20products.%20Please%20provide%20more%20details." class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp" aria-hidden="true"></i>
     </a>
 
     <!-- Bootstrap JS Bundle -->

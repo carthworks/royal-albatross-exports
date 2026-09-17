@@ -95,11 +95,12 @@
   <div class="mt-5 pt-4 border-top">
     <a href="index.php" class="back-link"><i class="fas fa-arrow-left me-1" aria-hidden="true"></i> Back to Home</a>
     &nbsp;&nbsp;|&nbsp;&nbsp;<a href="privacy-policy.php" class="back-link">Privacy Policy</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;<a href="refund-policy.php" class="back-link">Refund &amp; Cancellation Policy</a>
   </div>
 </div></div>
 <footer class="footer"><div class="container"><div class="footer-bottom">
   <p>&copy; 2026 Royal Albatross Exports. All rights reserved.</p>
-  <p><a href="privacy-policy.php" style="color:inherit">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms.php" style="color:inherit">Terms &amp; Conditions</a></p>
+  <p><a href="privacy-policy.php" style="color:inherit">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms.php" style="color:inherit">Terms &amp; Conditions</a> &nbsp;|&nbsp; <a href="refund-policy.php" style="color:inherit">Refund &amp; Cancellation Policy</a></p>
 </div></div></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body></html>

@@ -253,9 +253,9 @@ function detectSuspiciousActivity() {
     // Path traversal patterns
     $pathTraversalPatterns = [
         '/\.\.\//i',
-        '/\.\.\\/i',
+        '/\.\.\\\\/i',
         '/%2e%2e%2f/i',
-        '/%2e%2e\\/i'
+        '/%2e%2e\\\\/i'
     ];
     
     // Common attack patterns

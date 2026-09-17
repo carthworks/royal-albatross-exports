@@ -55,6 +55,8 @@
                 <a href="privacy-policy.php" style="color:inherit; text-decoration:underline;">Privacy Policy</a>
                 &nbsp;|&nbsp;
                 <a href="terms.php" style="color:inherit; text-decoration:underline;">Terms &amp; Conditions</a>
+                &nbsp;|&nbsp;
+                <a href="refund-policy.php" style="color:inherit; text-decoration:underline;">Refund &amp; Cancellation Policy</a>
             </p>
             <p class="visitor-counter" style="font-size: 0.85rem; opacity: 0.7; margin-top: 8px;">
                 <i class="fas fa-eye"></i> <?php echo number_format($visitorData['total_visits']); ?> visits

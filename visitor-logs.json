@@ -286,5 +286,41 @@
         "session_start": "2026-09-17 11:06:02",
         "session_end": "2026-09-17 11:37:42",
         "time_spent_seconds": 1900
+    },
+    {
+        "timestamp": "2026-09-17 12:06:38",
+        "ip_address": "::1",
+        "session_id": "sess_6aabad7a0ab9b1.87414863",
+        "user_agent": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/152.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/royalalbatrossexports\/privacy-policy.php",
+        "request_uri": "\/royalalbatrossexports\/index.php",
+        "page": "index.php",
+        "country": "Unknown",
+        "city": "Unknown",
+        "browser": "Chrome",
+        "os": "Windows 10\/11",
+        "device_type": "Desktop",
+        "traffic_source": "Referral: localhost",
+        "session_start": "2026-09-17 11:06:02",
+        "session_end": "2026-09-17 12:06:38",
+        "time_spent_seconds": 3636
+    },
+    {
+        "timestamp": "2026-09-17 12:06:46",
+        "ip_address": "::1",
+        "session_id": "sess_6aabad7a0ab9b1.87414863",
+        "user_agent": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/152.0.0.0 Safari\/537.36",
+        "referer": "Direct",
+        "request_uri": "\/royalalbatrossexports\/vghgfhf",
+        "page": "page.php",
+        "country": "Unknown",
+        "city": "Unknown",
+        "browser": "Chrome",
+        "os": "Windows 10\/11",
+        "device_type": "Desktop",
+        "traffic_source": "Direct",
+        "session_start": "2026-09-17 11:06:02",
+        "session_end": "2026-09-17 12:06:46",
+        "time_spent_seconds": 3644
     }
 ]
