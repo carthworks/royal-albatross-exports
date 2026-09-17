@@ -3,6 +3,9 @@ php_flag display_errors Off
 php_flag log_errors On
 php_value error_log php-errors.log
 
+# Disable directory listing
+Options -Indexes
+
 # Set default charset
 AddDefaultCharset UTF-8
 
@@ -23,11 +26,16 @@ AddDefaultCharset UTF-8
     ExpiresByType application/javascript "access plus 1 month"
 </IfModule>
 
-# Security headers (backup if PHP headers fail)
+# Security headers
 <IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
-    Header set X-Frame-Options "SAMEORIGIN"
-    Header set X-XSS-Protection "1; mode=block"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header always set Content-Security-Policy "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://maps.gstatic.com https://maps.googleapis.com; frame-src https://www.youtube.com https://www.google.com https://maps.googleapis.com https://maps.gstatic.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net;"
+    Header always unset X-Powered-By
 </IfModule>
 
 # Protect sensitive files
@@ -36,16 +44,28 @@ AddDefaultCharset UTF-8
     Deny from all
 </FilesMatch>
 
-<FilesMatch "\.(json|log)$">
+<FilesMatch "\.(json|log|bak|sql|sh|ini|dist|inc)$">
     Order allow,deny
     Deny from all
 </FilesMatch>
 
-# Allow access to specific files
-<Files "test-debug.php">
+# Block developer documentation and dev artifacts in webroot
+<FilesMatch "^(BEFORE_AFTER_COMPARISON|CONTACT_FORM_ENHANCEMENTS|CONVERSION_SUMMARY|EMAIL_SETUP_GUIDE|ENHANCEMENT_SUMMARY|FORM_SUBMISSION_TRACKING|FORM_TRACKING_SUMMARY|HERO_UPDATES|NAMECHEAP_DEPLOYMENT|PROJECT_SUMMARY|QUICK_FIX|QUICK_REFERENCE|README|README_PHP|SECURITY_MODULE_DOCUMENTATION|SECURITY_QUICK_SETUP|VISITOR_COUNTER_GUIDE|VISITOR_IP_TRACKING_GUIDE|VISITOR_TRACKING_ENHANCED|YOUTUBE_INTEGRATION|CUSTOMIZATION|prompt)\.(txt|md)$">
     Order allow,deny
-    Allow from all
-</Files>
+    Deny from all
+</FilesMatch>
+
+# Block test/debug PHP files
+<FilesMatch "^(test-debug|contact-handler-test|phpinfo\.php\.bak)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Redirect favicon.ico to PNG favicon
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} ^/favicon\.ico$
+    RewriteRule ^ /assets/images/logo_1767183459166.png [L,R=301]
+</IfModule>
 
 # Dynamic Page Routing Rewrite Rules
 <IfModule mod_rewrite.c>

@@ -129,8 +129,13 @@
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary btn-lg w-100">
-                                <i class="fas fa-paper-plane me-2"></i>Send Inquiry
+                                <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>Send Inquiry
                             </button>
+                            <p class="text-muted small mt-2 text-center">
+                                <i class="fas fa-lock me-1" aria-hidden="true"></i>
+                                Your information is used only to respond to your inquiry.
+                                <a href="privacy-policy.php" target="_blank">Privacy Policy</a>
+                            </p>
                         </div>
                     </div>
                 </form>
@@ -140,9 +145,10 @@
         <!-- Google Maps -->
         <div class="map-container mt-5" data-aos="fade-up">
             <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.2615!2d76.9581!3d11.0168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTHCsDAxJzAwLjUiTiA3NsKwNTcnMjkuMiJF!5e0!3m2!1sen!2sin!4v1234567890"
+                src="https://www.google.com/maps/embed?q=S.F.349%2F1%2C+Oornaicker+Thottam%2C+Priya+Gardens%2C+Poochiyur+Road%2C+Coimbatore%2C+Tamil+Nadu+641031%2C+India&output=embed"
                 width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade">
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Royal Albatross Exports location on Google Maps">
             </iframe>
         </div>
     </div>

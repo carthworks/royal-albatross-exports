@@ -299,26 +299,8 @@
         const twoDaysInMs = 2 * 24 * 60 * 60 * 1000; // 2 days in milliseconds
         const now = new Date().getTime();
         
+        // Divine Blessings popup disabled
         let shouldShow = false;
-        
-        if (!lastShown) {
-            // Never shown before
-            console.log('Modal never shown before - will display');
-            shouldShow = true;
-        } else {
-            const lastShownTime = parseInt(lastShown);
-            const timeSinceLastShown = now - lastShownTime;
-            const daysAgo = timeSinceLastShown / (24 * 60 * 60 * 1000);
-            console.log(`Modal last shown ${daysAgo.toFixed(2)} days ago`);
-            
-            if (timeSinceLastShown > twoDaysInMs) {
-                // More than 2 days have passed
-                console.log('More than 2 days passed - will display');
-                shouldShow = true;
-            } else {
-                console.log('Less than 2 days - will not display');
-            }
-        }
         
         if (shouldShow) {
             // Show the modal after a short delay for better UX

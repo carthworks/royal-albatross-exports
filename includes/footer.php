@@ -49,7 +49,13 @@
             $visitorData = include 'visitor-counter.php';
             ?>
             <p>&copy; <?php echo date('Y'); ?> Royal Albatross Exports. All rights reserved. | Designed with <i
-                    class="fas fa-heart"></i> for Excellence</p>
+                    class="fas fa-heart" aria-hidden="true"></i> for Excellence</p>
+            <p style="font-size:0.82rem; opacity:0.75; margin-top:6px;">
+                IEC Certified Exporter &mdash; Coimbatore, Tamil Nadu, India<br>
+                <a href="privacy-policy.php" style="color:inherit; text-decoration:underline;">Privacy Policy</a>
+                &nbsp;|&nbsp;
+                <a href="terms.php" style="color:inherit; text-decoration:underline;">Terms &amp; Conditions</a>
+            </p>
             <p class="visitor-counter" style="font-size: 0.85rem; opacity: 0.7; margin-top: 8px;">
                 <i class="fas fa-eye"></i> <?php echo number_format($visitorData['total_visits']); ?> visits
                 <span style="margin: 0 8px;">•</span>

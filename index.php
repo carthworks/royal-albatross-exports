@@ -76,14 +76,24 @@ try {
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/new-features.css">
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSREZHSWPL"></script>
+    <!-- Google Analytics — loaded only after cookie consent -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-BSREZHSWPL');
+    (function(){
+        function loadGA(){
+            var s=document.createElement('script');
+            s.async=true;
+            s.src='https://www.googletagmanager.com/gtag/js?id=G-BSREZHSWPL';
+            document.head.appendChild(s);
+            window.dataLayer=window.dataLayer||[];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag=gtag;
+            gtag('js',new Date());
+            gtag('config','G-BSREZHSWPL');
+        }
+        var consent=localStorage.getItem('cookieConsent');
+        if(consent==='accepted') loadGA();
+        window.__loadGA=loadGA;
+    })();
     </script>
 </head>
 
@@ -318,7 +328,7 @@ try {
                         <div class="about-features">
                             <div class="feature-item">
                                 <i class="fas fa-check-circle"></i>
-                                <span>ISO Certified Quality Standards</span>
+                                <span>IEC Certified &amp; Quality Assured Standards</span>
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-check-circle"></i>
@@ -416,9 +426,32 @@ try {
     <!-- Footer -->
     <?php include 'includes/footer.php'; ?>
 
+    <!-- Cookie Consent Banner -->
+    <div id="cookieBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;padding:16px 24px;z-index:10000;display:flex;flex-wrap:wrap;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.4);">
+        <p style="margin:0;flex:1;min-width:200px;font-size:.9rem;">We use cookies to analyse site traffic and improve our website. <a href="privacy-policy.php" style="color:#f0a500;" target="_blank">Learn more</a></p>
+        <button id="cookieAccept" onclick="acceptCookies()" style="background:#f0a500;color:#000;border:none;padding:9px 22px;border-radius:6px;font-weight:700;cursor:pointer;">Accept</button>
+        <button id="cookieDecline" onclick="declineCookies()" style="background:transparent;color:#fff;border:1px solid #fff;padding:9px 22px;border-radius:6px;cursor:pointer;">Decline</button>
+    </div>
+    <script>
+    function acceptCookies(){
+        localStorage.setItem('cookieConsent','accepted');
+        document.getElementById('cookieBanner').style.display='none';
+        if(window.__loadGA) window.__loadGA();
+    }
+    function declineCookies(){
+        localStorage.setItem('cookieConsent','declined');
+        document.getElementById('cookieBanner').style.display='none';
+    }
+    document.addEventListener('DOMContentLoaded',function(){
+        if(!localStorage.getItem('cookieConsent')){
+            document.getElementById('cookieBanner').style.display='flex';
+        }
+    });
+    </script>
+
     <!-- WhatsApp Floating Button -->
     <a href="https://wa.me/6383424438" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
+        <i class="fab fa-whatsapp" aria-hidden="true"></i>
     </a>
 
     <!-- Back to Top Button -->

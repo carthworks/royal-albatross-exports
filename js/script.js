@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
     initSmoothScroll();
     initFormValidation();
     initCarousels();
+
+    // Dynamic copyright year
+    const yearEl = document.getElementById('footerYear');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 });
 
 // ===== Loading Animation =====
@@ -251,11 +255,18 @@ function initFormValidation() {
                 submitBtn.disabled = true;
 
                 // Submit form via AJAX to PHP handler
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+
                 fetch('contact-handler.php', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    signal: controller.signal
                 })
-                    .then(response => response.json())
+                    .then(response => {
+                        clearTimeout(timeoutId);
+                        return response.json();
+                    })
                     .then(data => {
                         if (data.success) {
                             showMessage('success', data.message);
@@ -273,7 +284,10 @@ function initFormValidation() {
                     })
                     .catch(error => {
                         console.error('Form submission error:', error);
-                        showMessage('error', 'An error occurred while sending your message. Please try again or contact us directly at royalalbatrossexports@gmail.com');
+                        const msg = error.name === 'AbortError'
+                            ? 'The request timed out. Please try again or contact us at royalalbatrossexports@gmail.com'
+                            : 'An error occurred while sending your message. Please try again or contact us directly at royalalbatrossexports@gmail.com';
+                        showMessage('error', msg);
 
                         // Reset button
                         submitBtn.innerHTML = originalText;

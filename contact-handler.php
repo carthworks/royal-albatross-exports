@@ -5,7 +5,7 @@
  */
 
 // Enable error reporting for development (disable in production)
-error_reporting(E_ALL);
+error_reporting(0);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 ini_set('error_log', 'php-errors.log');
@@ -13,10 +13,14 @@ ini_set('error_log', 'php-errors.log');
 // Set content type to JSON
 header('Content-Type: application/json');
 
-// Allow CORS if needed (adjust origin as needed)
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type');
+// Allow CORS for production origin only
+$allowed_origin = 'https://royalalbatrossexports.in';
+$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+if ($origin === $allowed_origin || $origin === 'https://www.royalalbatrossexports.in') {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Access-Control-Allow-Methods: POST');
+    header('Access-Control-Allow-Headers: Content-Type');
+}
 
 // Configuration
 $config = [
