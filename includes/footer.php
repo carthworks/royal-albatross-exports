@@ -25,10 +25,10 @@
                 <div class="footer-links">
                     <h4>Products</h4>
                     <ul>
-                        <li><a href="#products">Agricultural Products</a></li>
-                        <li><a href="#products">Agro Products</a></li>
-                        <li><a href="#products">Flower Products</a></li>
-                        <li><a href="#products">Organic Products</a></li>
+                        <li><a href="#products">Fresh Cut Roses</a></li>
+                        <li><a href="#products">Pure Organic Honey</a></li>
+                        <li><a href="#products">Fresh Export Coconuts</a></li>
+                        <li><a href="#products">Agricultural &amp; Agro Products</a></li>
                     </ul>
                 </div>
             </div>

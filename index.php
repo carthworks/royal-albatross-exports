@@ -196,7 +196,6 @@ try {
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
                     <li class="nav-item"><a class="nav-link" href="#why-us">Why Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
                     <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     <li class="nav-item">
@@ -475,8 +474,8 @@ try {
         </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <?php include 'includes/testimonials-section.php'; ?>
+    <!-- Testimonials Section (Hidden) -->
+    <?php /* include 'includes/testimonials-section.php'; */ ?>
 
     <!-- FAQ Section -->
     <?php include 'includes/faq-section.php'; ?>
@@ -511,7 +510,7 @@ try {
     </script>
 
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/916383424438?text=Hello%20Royal%20Albatross%20Exports%2C%20I%20am%20interested%20in%20your%20export%20products.%20Please%20provide%20more%20details." class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">
+    <a href="https://wa.me/916383424438?text=Hi%2C%20I%27m%20interested%20in%20your%20export%20products" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp" title="Chat with us on WhatsApp">
         <i class="fab fa-whatsapp" aria-hidden="true"></i>
     </a>
 

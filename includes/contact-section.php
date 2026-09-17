@@ -91,12 +91,12 @@
                                 <label for="product">Product Interest *</label>
                                 <select class="form-control" id="product" name="product" required>
                                     <option value="">Select Product</option>
-                                    <option value="agricultural">Agricultural Products</option>
-                                    <option value="agro">Agro Products</option>
-                                    <option value="flowers">Flower Products</option>
-                                    <option value="organic">Organic Agro Products</option>
-                                    <option value="wholesale">Flower Wholesale Supply</option>
-                                    <option value="custom">Custom Export Orders</option>
+                                    <option value="roses">Fresh Cut Roses &amp; Flowers</option>
+                                    <option value="honey">Pure Organic Wild Honey</option>
+                                    <option value="coconuts">Fresh Export Coconuts</option>
+                                    <option value="agricultural">Agricultural Produce &amp; Vegetables</option>
+                                    <option value="agro">Agro Commodities &amp; Spices</option>
+                                    <option value="custom">Custom Export Sourcing</option>
                                 </select>
                             </div>
                         </div>

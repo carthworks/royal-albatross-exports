@@ -47,7 +47,7 @@
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="assets/images/product_flowers_1767183513507.png" alt="Flower Products"
+                        <img src="assets/images/product_roses.jpg" alt="Fresh Cut Export Roses"
                             class="img-fluid">
                         <div class="product-overlay">
                             <button class="btn-view" data-bs-toggle="modal" data-bs-target="#productModal3">
@@ -56,8 +56,8 @@
                         </div>
                     </div>
                     <div class="product-content">
-                        <h3>Flower Products</h3>
-                        <p>Fresh export flowers & bouquets delivered worldwide with premium quality.</p>
+                        <h3>Fresh Cut Roses</h3>
+                        <p>Export-grade Dutch and Indian red roses, fresh-cut with temperature-controlled cold chain logistics.</p>
                         <a href="#contact" class="btn btn-outline-primary">Request Quote</a>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="assets/images/product_organic_1767183530824.png" alt="Organic Agro Products"
+                        <img src="assets/images/product_honey.jpg" alt="Pure Organic Wild Honey"
                             class="img-fluid">
                         <div class="product-overlay">
                             <button class="btn-view" data-bs-toggle="modal" data-bs-target="#productModal4">
@@ -74,8 +74,8 @@
                         </div>
                     </div>
                     <div class="product-content">
-                        <h3>Organic Agro Products</h3>
-                        <p>Certified organic supply options with sustainable farming practices.</p>
+                        <h3>Pure Organic Honey</h3>
+                        <p>100% pure raw unpasteurized forest and wild flower honey, lab-tested and packaged for international export.</p>
                         <a href="#contact" class="btn btn-outline-primary">Request Quote</a>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="assets/images/product_flowers_1767183513507.png" alt="Flower Wholesale Supply"
+                        <img src="assets/images/product_coconut.jpg" alt="Fresh Export Coconuts"
                             class="img-fluid">
                         <div class="product-overlay">
                             <button class="btn-view" data-bs-toggle="modal" data-bs-target="#productModal5">
@@ -92,8 +92,8 @@
                         </div>
                     </div>
                     <div class="product-content">
-                        <h3>Flower Wholesale Supply</h3>
-                        <p>Bulk delivery to international markets with competitive pricing.</p>
+                        <h3>Fresh Export Coconuts</h3>
+                        <p>Premium semi-husked mature coconuts and tender green coconuts sourced from the fertile Pollachi belt.</p>
                         <a href="#contact" class="btn btn-outline-primary">Request Quote</a>
                     </div>
                 </div>

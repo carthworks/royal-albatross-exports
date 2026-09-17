@@ -13,10 +13,17 @@ ini_set('error_log', 'php-errors.log');
 // Set content type to JSON
 header('Content-Type: application/json');
 
-// Allow CORS for production origin only
-$allowed_origin = 'https://royalalbatrossexports.in';
+// Allow CORS for production and development origins
+$allowed_origins = [
+    'https://royalalbatrossexports.in',
+    'https://www.royalalbatrossexports.in',
+    'https://royalalbatrossexport.com',
+    'https://www.royalalbatrossexport.com',
+    'http://localhost',
+    'http://127.0.0.1'
+];
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
-if ($origin === $allowed_origin || $origin === 'https://www.royalalbatrossexports.in') {
+if (in_array($origin, $allowed_origins) || (strpos($origin, 'localhost') !== false)) {
     header('Access-Control-Allow-Origin: ' . $origin);
     header('Access-Control-Allow-Methods: POST');
     header('Access-Control-Allow-Headers: Content-Type');
@@ -171,12 +178,15 @@ if (!empty($errors)) {
 
 // Product names mapping
 $productNames = [
-    'agricultural' => 'Agricultural Products',
-    'agro' => 'Agro Products',
+    'agricultural' => 'Agricultural Produce & Vegetables',
+    'agro' => 'Agro Commodities & Spices',
     'flowers' => 'Flower Products',
+    'roses' => 'Fresh Cut Roses & Flowers',
+    'honey' => 'Pure Organic Wild Honey',
+    'coconuts' => 'Fresh Export Coconuts',
     'organic' => 'Organic Agro Products',
     'wholesale' => 'Flower Wholesale Supply',
-    'custom' => 'Custom Export Orders'
+    'custom' => 'Custom Export Sourcing'
 ];
 
 $productName = isset($productNames[$product]) ? $productNames[$product] : $product;
@@ -296,15 +306,37 @@ if (!empty($config['cc_email'])) {
     $headers .= "Cc: {$config['cc_email']}\r\n";
 }
 
-// Send email
-$mailSent = mail($config['recipient_email'], $emailSubject, $emailBody, $headers);
+// 1. ALWAYS log the inquiry FIRST so customer submissions are never lost
+$logEntry = date('Y-m-d H:i:s') . " | {$name} | {$email} | {$company} | {$productName} | Phone: {$phone} | Qty: {$quantity} | IP: {$ipAddress} | Browser: {$browser} | OS: {$operatingSystem}\n";
+@file_put_contents('inquiries.log', $logEntry, FILE_APPEND);
 
-if (!$mailSent) {
-    sendResponse(false, 'Failed to send email. Please try again later or contact us directly.');
+// 2. Log form submission to visitor logs for admin dashboard
+logFormSubmission($name, $email, $company, $phone, $country, $productName, $quantity, $message, $ipAddress, $userAgent, $referrer, $browser, $operatingSystem, $timezone);
+
+// 3. Check environment
+$isLocalhost = in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1']) 
+    || (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'localhost') !== false);
+
+$smtpHost = ini_get('SMTP');
+$sendmailPath = ini_get('sendmail_path');
+$canAttemptMail = !$isLocalhost || ($smtpHost !== 'localhost' && !empty($smtpHost)) || !empty($sendmailPath);
+
+$mailSent = false;
+
+// 4. Send email notification
+if ($canAttemptMail) {
+    $mailSent = @mail($config['recipient_email'], $emailSubject, $emailBody, $headers);
+    if (!$mailSent) {
+        error_log("Notice: mail() could not deliver to " . $config['recipient_email'] . ". Inquiry saved to inquiries.log.");
+    }
+} else {
+    // In local development without configured MTA, consider submission successfully recorded
+    error_log("Local development environment: Form submission recorded to inquiries.log & visitor-logs.json. Mail dispatch skipped.");
+    $mailSent = true;
 }
 
-// Send auto-reply to customer
-if ($config['enable_auto_reply']) {
+// 5. Send auto-reply to customer
+if ($config['enable_auto_reply'] && $canAttemptMail) {
     $autoReplySubject = 'Thank you for contacting Royal Albatross Exports';
     
     $autoReplyBody = "
@@ -315,36 +347,35 @@ if ($config['enable_auto_reply']) {
         <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #2d7a3e, #4caf50); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .header { background: linear-gradient(135deg, #0d2818, #1b4332); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
             .content { background: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px; }
             .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e9ecef; color: #6c757d; font-size: 14px; }
-            .contact-info { background: white; padding: 20px; border-radius: 5px; margin-top: 20px; }
+            .contact-info { background: white; padding: 20px; border-radius: 5px; margin-top: 20px; border-left: 4px solid #d4af37; }
         </style>
     </head>
     <body>
         <div class='container'>
             <div class='header'>
-                <h1>Thank You!</h1>
-                <p>Royal Albatross Exports</p>
+                <h1 style='margin:0; color:#d4af37;'>Thank You!</h1>
+                <p style='margin:5px 0 0 0;'>Royal Albatross Exports</p>
             </div>
             <div class='content'>
                 <p>Dear {$name},</p>
-                <p>Thank you for your inquiry regarding <strong>{$productName}</strong>. We have received your message and our team will review it shortly.</p>
-                <p>We typically respond to all inquiries within 24 hours during business days. One of our export specialists will contact you soon to discuss your requirements in detail.</p>
+                <p>Thank you for your inquiry regarding <strong>{$productName}</strong>. We have received your requirements and our export documentation team will review them promptly.</p>
+                <p>We typically respond to all global inquiries within 24 hours during business days with product specifications and price quotations.</p>
                 
                 <div class='contact-info'>
-                    <h3 style='color: #2d7a3e; margin-top: 0;'>Contact Information</h3>
-                    <p><strong>Phone:</strong> +91 94422 29082</p>
-                    <p><strong>Email:</strong> royalalbatrossexports@gmail.com</p>
-                    <p><strong>WhatsApp:</strong> +91 94422 29082</p>
-                    <p><strong>Address:</strong> No. A-201, VKC Layout, Perur Main Road, Selvapuram, Coimbatore-641024, Tamil Nadu, India</p>
+                    <h3 style='color: #0d2818; margin-top: 0;'>Contact Information</h3>
+                    <p><strong>Phone / WhatsApp:</strong> +91 94422 29082, +91 63834 24438</p>
+                    <p><strong>Email:</strong> <a href='mailto:royalalbatrossexports@gmail.com'>royalalbatrossexports@gmail.com</a> | <a href='mailto:info@royalalbatrossexports.in'>info@royalalbatrossexports.in</a></p>
+                    <p><strong>Address:</strong> S.F.349/1, Oornaicker Thottam, Priya Gardens, Poochiyur Road, Coimbatore &ndash; 641031, Tamil Nadu, India</p>
                 </div>
                 
-                <p style='margin-top: 20px;'>For urgent inquiries, please feel free to contact us directly via phone or WhatsApp.</p>
+                <p style='margin-top: 20px;'>For urgent export orders or immediate shipping schedules, feel free to contact us directly via phone or WhatsApp.</p>
                 
                 <div class='footer'>
                     <p><strong>Trusted Quality. Fresh Exports. Global Reach.</strong></p>
-                    <p>© " . date('Y') . " Royal Albatross Exports. All rights reserved.</p>
+                    <p>&copy; " . date('Y') . " Royal Albatross Exports. All rights reserved.</p>
                 </div>
             </div>
         </div>
@@ -356,18 +387,11 @@ if ($config['enable_auto_reply']) {
     $autoReplyHeaders .= "Content-type: text/html; charset=UTF-8\r\n";
     $autoReplyHeaders .= "From: {$config['from_name']} <{$config['from_email']}>\r\n";
     
-    mail($email, $autoReplySubject, $autoReplyBody, $autoReplyHeaders);
+    @mail($email, $autoReplySubject, $autoReplyBody, $autoReplyHeaders);
 }
 
-// Log the inquiry with detailed information
-$logEntry = date('Y-m-d H:i:s') . " | {$name} | {$email} | {$company} | {$productName} | IP: {$ipAddress} | Browser: {$browser} | OS: {$operatingSystem}\n";
-file_put_contents('inquiries.log', $logEntry, FILE_APPEND);
-
-// Log form submission to visitor logs
-logFormSubmission($name, $email, $company, $phone, $country, $productName, $quantity, $message, $ipAddress, $userAgent, $referrer, $browser, $operatingSystem, $timezone);
-
 // Send success response
-sendResponse(true, 'Thank you for your inquiry! We will get back to you within 24 hours.', [
+sendResponse(true, 'Thank you for your inquiry! We have received your message and our team will get back to you within 24 hours.', [
     'inquiry_id' => uniqid('INQ-'),
     'timestamp' => date('Y-m-d H:i:s')
 ]);

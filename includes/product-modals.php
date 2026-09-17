@@ -50,22 +50,24 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Flower Products</h5>
+                <h5 class="modal-title">Fresh Cut Roses &amp; Flowers</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <img src="assets/images/product_flowers_1767183513507.png" alt="Flower Products"
-                    class="img-fluid mb-3">
-                <h4>Fresh Export Flowers</h4>
-                <p>We specialize in exporting fresh cut flowers including:</p>
+                <img src="assets/images/product_roses.jpg" alt="Fresh Cut Export Roses"
+                    class="img-fluid mb-3 rounded" style="width:100%; max-height:380px; object-fit:cover;">
+                <h4>Premium Fresh Cut Export Roses</h4>
+                <p>Grown in the high-altitude climate of Tamil Nadu &amp; Karnataka with exceptional head size, vibrant colors, and extended vase life:</p>
                 <ul>
-                    <li>Roses (Various Colors and Varieties)</li>
-                    <li>Carnations</li>
-                    <li>Chrysanthemums</li>
-                    <li>Orchids and Exotic Flowers</li>
-                    <li>Seasonal Flowers</li>
+                    <li><strong>Varieties:</strong> Dutch Roses (Red Taj Mahal, Bordeaux, Top Secret), Yellow, Pink, White, and Button Spray Roses</li>
+                    <li><strong>Stem Lengths:</strong> 40cm, 50cm, 60cm, 70cm+ export grades</li>
+                    <li><strong>Cold Chain:</strong> Post-harvest pre-cooling and 2&deg;C &ndash; 4&deg;C reefer transport</li>
+                    <li><strong>Certifications:</strong> APEDA Phytosanitary Certificate with zero pest inspection</li>
+                    <li><strong>Packaging:</strong> Corrugated export cartons with hydration packs (20 stems/bunch, 200-400 stems/box)</li>
                 </ul>
-                <p>Cold chain maintained from farm to destination ensuring maximum freshness.</p>
+                <div class="mt-3">
+                    <a href="#contact" class="btn btn-primary" data-bs-dismiss="modal">Inquire for Roses</a>
+                </div>
             </div>
         </div>
     </div>
@@ -75,21 +77,24 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Organic Agro Products</h5>
+                <h5 class="modal-title">Pure Organic Wild Honey</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <img src="assets/images/product_organic_1767183530824.png" alt="Organic Products"
-                    class="img-fluid mb-3">
-                <h4>Certified Organic Products</h4>
-                <p>Our organic range includes:</p>
+                <img src="assets/images/product_honey.jpg" alt="Pure Organic Honey"
+                    class="img-fluid mb-3 rounded" style="width:100%; max-height:380px; object-fit:cover;">
+                <h4>100% Pure Raw Wild Forest Honey</h4>
+                <p>Ethically harvested raw, unheated, unpasteurized organic honey from pristine forest reserves and organic apiaries:</p>
                 <ul>
-                    <li>Organic Vegetables and Fruits</li>
-                    <li>Organic Grains and Pulses</li>
-                    <li>Organic Spices</li>
-                    <li>Organic Herbs</li>
+                    <li><strong>Source:</strong> Western Ghats wild forest floral nectar &amp; single-source acacia/multifloral</li>
+                    <li><strong>Purity:</strong> Zero added sugar, zero corn syrup (C3/C4 NMR tested &amp; lab-verified)</li>
+                    <li><strong>Moisture Content:</strong> Below 18% &mdash; premium export international grade</li>
+                    <li><strong>Certifications:</strong> FSSAI, APEDA, Organic Export Certified</li>
+                    <li><strong>Packaging:</strong> Retail glass jars (250g, 500g, 1kg) or bulk food-grade drums (30kg &ndash; 300kg)</li>
                 </ul>
-                <p>All products are certified organic (USDA, EU standards) with complete documentation.</p>
+                <div class="mt-3">
+                    <a href="#contact" class="btn btn-primary" data-bs-dismiss="modal">Inquire for Honey</a>
+                </div>
             </div>
         </div>
     </div>
@@ -99,21 +104,24 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Flower Wholesale Supply</h5>
+                <h5 class="modal-title">Fresh Export Coconuts</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <img src="assets/images/product_flowers_1767183513507.png" alt="Wholesale Flowers"
-                    class="img-fluid mb-3">
-                <h4>Bulk Flower Supply</h4>
-                <p>Wholesale flower supply services:</p>
+                <img src="assets/images/product_coconut.jpg" alt="Fresh Export Coconuts"
+                    class="img-fluid mb-3 rounded" style="width:100%; max-height:380px; object-fit:cover;">
+                <h4>South Indian Export Coconuts (Pollachi Grade)</h4>
+                <p>Sourced directly from the world-famous Pollachi &amp; Coimbatore coconut belt, celebrated for high oil content, thick copra, and sweet water:</p>
                 <ul>
-                    <li>Large Volume Orders</li>
-                    <li>Competitive Wholesale Pricing</li>
-                    <li>Regular Supply Contracts</li>
-                    <li>Custom Packaging Options</li>
+                    <li><strong>Product Types:</strong> Grade-A Semi-Husked Mature Coconuts &amp; Diamond-Cut Tender Green Coconuts</li>
+                    <li><strong>Weight / Size:</strong> 550g &ndash; 650g+ per mature nut (approx. 12 &ndash; 14 inches circumference)</li>
+                    <li><strong>Quality:</strong> Fully matured, natural brown husk tuft preserved, fungus/crack-free</li>
+                    <li><strong>Shelf Life:</strong> 60 to 75 days under standard 12&deg;C &ndash; 14&deg;C container storage</li>
+                    <li><strong>Packaging:</strong> 25 nuts packed per PP mesh/jute bag (approx. 13 &ndash; 14 kg/bag), shipped in 40ft High Cube reefer containers (approx. 2000 bags)</li>
                 </ul>
-                <p>Perfect for florists, retailers, and event planners worldwide.</p>
+                <div class="mt-3">
+                    <a href="#contact" class="btn btn-primary" data-bs-dismiss="modal">Inquire for Coconuts</a>
+                </div>
             </div>
         </div>
     </div>
