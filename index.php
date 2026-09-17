@@ -200,13 +200,10 @@ try {
                         </div>
                     </div>
                 </div>
-                <div class="carousel-item hero-video-slide">
+                <div class="carousel-item hero-video-slide" style="background-image: url('assets/images/hero_export_excellence.jpg'); background-size: cover; background-position: center;">
                     <video class="hero-video" autoplay muted loop playsinline>
                         <source src="assets/videos/hero-video.mp4" type="video/mp4">
                         <source src="assets/videos/hero-video.webm" type="video/webm">
-                        <!-- Fallback image if video doesn't load -->
-                        <img src="assets/images/hero_agriculture_1767183410455.png" class="d-block w-100"
-                            alt="Royal Albatross Exports">
                     </video>
                     <div class="carousel-caption">
                         <div class="container">
